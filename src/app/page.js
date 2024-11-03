@@ -1,607 +1,565 @@
-'use client'
-import { useState, useEffect } from 'react';
-import Alert from '@/Component/Alert';
-import Button from '@/Component/Button';
-import Tooltip from '@/Component/Tooltip';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/Component/Accordion'; // Import all the necessary components
-import Badge from '@/Component/Badge';
-import { Breadcrumb, BreadcrumbDropdown, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Component/Breadcrumb';
-import Calendar from '@/Component/Calendar';
-import Carousel, { CarouselItem } from '@/Component/Carousel';
-import Checkbox from '@/Component/Checkbox';
-import Dropdown, { DropdownItem, DropdownSearch } from '@/Component/Dropdown';
-import { Command, CommandGroup, CommandItem, CommandItemIcon, CommandItemSuggestionText, CommandItemText } from '@/Component/Command';
-import DilogContener, { DilogContent, DilogMenuContent, DilogMenuGroup, DilogMenuList } from '@/Component/Dilog';
-import Input from '@/Component/Input';
-import Label from '@/Component/Label';
-import Datatable, { TableBody, TableCell, TableRow, TableHead, TableHeadingCell } from '@/Component/Datatable';
-import ScrollArea from '@/Component/ScrollArea';
-import { ResizablePanel, ResizablePanelGroup } from '@/Component/Resizable';
-import ProgressBar from '@/Component/Progress';
 
 
-
-const sampleTableData = [
-    { id: 1, productName: "Laptop", category: "Electronics", price: 999.99, stock: 15, available: true, rating: 4.5 },
-    { id: 2, productName: "Coffee Beans", category: "Grocery", price: 12.99, stock: 50, available: true, rating: 4.8 },
-    { id: 3, productName: "T-Shirt", category: "Clothing", price: 19.99, stock: 8, available: false, rating: 3.9 },
-    { id: 4, productName: "Keyboard", category: "Electronics", price: 79.99, stock: 25, available: true, rating: 4.2 },
-    { id: 5, productName: "Mouse", category: "Electronics", price: 29.99, stock: 30, available: true, rating: 4.0 },
-    { id: 6, productName: "Monitor", category: "Electronics", price: 249.99, stock: 10, available: true, rating: 4.6 },
-    { id: 7, productName: "Headphones", category: "Electronics", price: 149.99, stock: 18, available: false, rating: 4.7 },
-    { id: 8, productName: "Milk", category: "Grocery", price: 3.99, stock: 60, available: true, rating: 4.1 },
-    { id: 9, productName: "Bread", category: "Grocery", price: 2.49, stock: 40, available: true, rating: 4.3 },
-    { id: 10, productName: "Eggs", category: "Grocery", price: 5.99, stock: 35, available: true, rating: 4.9 },
-    { id: 11, productName: "Jeans", category: "Clothing", price: 49.99, stock: 12, available: true, rating: 4.0 },
-    { id: 12, productName: "Dress", category: "Clothing", price: 39.99, stock: 5, available: false, rating: 3.7 },
-    { id: 13, productName: "Sneakers", category: "Clothing", price: 89.99, stock: 20, available: true, rating: 4.6 },
-    { id: 14, productName: "Backpack", category: "Accessories", price: 59.99, stock: 16, available: true, rating: 4.4 },
-    { id: 15, productName: "Wallet", category: "Accessories", price: 24.99, stock: 28, available: true, rating: 4.2 },
-    { id: 16, productName: "Sunglasses", category: "Accessories", price: 79.99, stock: 8, available: false, rating: 3.8 },
-    { id: 17, productName: "Book", category: "Books", price: 14.99, stock: 32, available: true, rating: 4.5 },
-    { id: 18, productName: "Notebook", category: "Stationery", price: 4.99, stock: 45, available: true, rating: 4.3 },
-    { id: 19, productName: "Pen", category: "Stationery", price: 1.99, stock: 70, available: true, rating: 4.1 },
-    { id: 20, productName: "Pencil", category: "Stationery", price: 0.99, stock: 80, available: true, rating: 4.0 },
-    { id: 21, productName: "Camera", category: "Electronics", price: 599.99, stock: 6, available: true, rating: 4.8 },
-    { id: 22, productName: "Lens", category: "Electronics", price: 299.99, stock: 4, available: false, rating: 4.9 },
-    { id: 23, productName: "Tripod", category: "Electronics", price: 49.99, stock: 11, available: true, rating: 4.3 },
-    { id: 24, productName: "Phone Case", category: "Accessories", price: 19.99, stock: 23, available: true, rating: 4.2 },
-    { id: 25, productName: "Screen Protector", category: "Accessories", price: 9.99, stock: 38, available: true, rating: 4.7 }
-];
+"use client"
+import Button from '@/Component/Button'
+import Dropdown, { DropdownItem } from '@/Component/Dropdown'
+import Input from '@/Component/Input'
+import Label from '@/Component/Label'
+import ScrollArea from '@/Component/ScrollArea'
+import Tabs, { TabContent, TabList, TabTrigger } from '@/Component/Tabs'
+import React from 'react'
+import { FaApple, FaCreditCard, FaPaypal, FaPlus } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { FaTwitter, FaLinkedin, FaGithub, FaInstagram, FaEnvelope } from 'react-icons/fa';
+import Link from 'next/link'
+import Checkbox from '@/Component/Checkbox'
+import Image from 'next/image'
 
 
-
-export default function Home() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [showAlert, setShowAlert] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [value, setvalue] = useState("asdf")
-    const [DropdownValue, setDropdownValue] = useState("")
-    const [showSimpleAlert, setShowSimpleAlert] = useState(false);
-
-    const handleSearch = (term) => {
-        setSearchTerm(term);
-    };
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        console.log('Selected date:', date);
-    };
-
+function Page() {
     return (
-        <div className=" overflow-hidden grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <h1 className="text-3xl font-bold text-center mb-20">My UI Library</h1>
-            <main className=" flex flex-col gap-8 row-start-2 items-center sm:items-start space-y-4 ">
-                {/* Buttons Section */}
-                <section className="space-y-4" id='section1'>
-                    <h2 className="text-xl font-semibold">Buttons</h2>
-                    <div className="flex flex-wrap gap-4">
-                        {/* Basic Usage */}
-                        <Button>Default</Button>
+        <div className="flex flex-col h-[calc(100vh-84px)] max-h-[calc(100vh-84px)] bg-stone-950 rounded-md overflow-hidden">
+            <ScrollArea >
 
-                        {/* Variants */}
-                        <Button variant="outline">Outline</Button>
-                        <Button variant="primary">Primary</Button>
-                        <Button variant="secondary">Secondary</Button>
-                        <Button variant="danger">Danger</Button>
-                        <Button variant="success">Success</Button>
-                        <Button variant="warning">Warning</Button>
-                        <Button variant="info">Info</Button>
-                    </div>
-                    <div className="flex items-center flex-wrap   gap-4">
-                        {/* Sizes */}
-                        <Button size="sm">Small</Button>
-                        <Button>Medium</Button>
-                        <Button size="lg">Large</Button>
-                        <Button size="xl" >Extra Large</Button>
-                        <Button size="icon" variant="outline" aria-label="Add">
-                            <span aria-hidden="true">➕</span>
-                        </Button>
-                    </div>
-                    <div className="flex flex-wrap gap-4">
-                        {/* Additional Props */}
-                        <Tooltip
-                            text="This tooltip appears on the left."
-                            position="top"
-                            size="sm"
-                            className="w-60"
-                        >
-                            <Button className="bg-purple-500 hover:bg-purple-700">
-                                Custom Style
+                {/* Hero Section */}
+                <section className="bg-gray-900 text-white py-20">
+                    <div className="container mx-auto text-center">
+                        <h1 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">
+                            <span className=' text-5xl'>uiZ</span> - Build Beautiful UIs
+                        </h1>
+                        <p className="text-lg mb-6 text-gray-300">
+                            A curated collection of reusable React components to supercharge your next project.
+                        </p>
+                        <Link href="/components">
+                            <Button variant="primary" size="lg">
+                                Explore Components
                             </Button>
-                        </Tooltip>
-                        <Button variant="primary" disabled>
-                            Disabled
-                        </Button>
-                        <Button type="submit">Submit</Button>
+                        </Link>
                     </div>
                 </section>
 
-                {/* Tooltips Section */}
-                <section className="space-y-4" id='section2'>
-                    <h2 className="text-xl font-semibold">Tooltips</h2>
-                    <div className="flex flex-wrap gap-4">
-                        <Tooltip text="This tooltip appears on top." position="top" size='xs'>
-                            <Button>Hover Me</Button>
-                        </Tooltip>
+                <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12"> {/* Added margin-bottom */}
 
-                        <Tooltip text="This tooltip appears on the right." position="right" size='xs'>
-                            <Button>Hover Me</Button>
-                        </Tooltip>
+                    <Tabs defaultActiveKey={"Cards"} className='w-full '>
+                        <TabList className=' max-w-6xl mx-auto'>
+                            <TabTrigger tabKey={"Cards"} >
+                                Cards
+                            </TabTrigger>
+                            <TabTrigger tabKey={"b"} >
+                                hello
+                            </TabTrigger>
+                            <TabTrigger tabKey={"c"} >
+                                hello
+                            </TabTrigger>
+                        </TabList>
+                        <TabContent tabKey={"Cards"} className=' w-full mt-10'>
+                            <div className='grid grid-cols-1 max-w-6xl sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full mx-auto'>
+                                <div className='max-w-96 mx-auto w-full'>
+                                    <div className=' border border-gray-500 p-4 rounded-lg pb-8 '>
+                                        <h1 className='text-center my-6 text-3xl font-bold'> Sign Up </h1>
+                                        <Label htmlFor="name" className='mt-6'>Name</Label>
+                                        <Input id='name' type="text" placeholder='Enter Your Name' className='w-full ' />
+                                        <Label htmlFor="email" className='mt-4'>Email</Label>
+                                        <Input id='email' type="email" placeholder='Enter Your Email' className='w-full ' />
+                                        <Label htmlFor="password" className='mt-4'>Password</Label>
+                                        <Input id='password' type="password" placeholder='Enter Your Password' className='w-full ' />
+                                        <Button type='submit' className='mt-8 mb-4 w-full'  >
+                                            Sign Up
+                                        </Button>
+                                    </div>
 
-                        <Tooltip text="This tooltip appears on the bottom." position="bottom" size='md' className="w-52">
-                            <Button>Hover Me</Button>
-                        </Tooltip>
+                                    <div className='border border-gray-500 p-4 rounded-lg pb-8 max-w-96 mx-auto mt-4'>
+                                        <div>
+                                            <h1 className=' text-md font-bold'>Payment Method</h1>
+                                            <h3 className=' text-sm'>Add a new payment method to your account.</h3>
+                                            <div className='grid grid-cols-3 gap-3 items-center justify-between mt-6'>
+                                                <div className='w-full border-2 border-gray-500 rounded-md flex items-center justify-center flex-col px-2 py-2'>
+                                                    <FaCreditCard className=' text-4xl text-center' />
+                                                    <span>Card</span>
+                                                </div>
+                                                <div className='w-full border-2 border-gray-500 rounded-md flex items-center justify-center flex-col px-2 py-2'>
+                                                    <FaPaypal className=' text-4xl text-center' />
+                                                    <span>Paypal</span>
+                                                </div>
+                                                <div className='w-full border-2 border-gray-500 rounded-md flex items-center justify-center flex-col px-2 py-2'>
+                                                    <FaApple className=' text-4xl text-center' />
+                                                    <span>Apple</span>
+                                                </div>
+                                            </div>
 
-                        <Tooltip text="This tooltip appears on the left." position="left" size='sm'>
-                            <Button>Hover Me</Button>
-                        </Tooltip>
-                    </div>
-                </section>
+                                            <Label htmlFor='paymentmethodname' className='mt-6'>Name</Label>
+                                            <Input id='paymentmethodname' type="text" placeholder='Enter Your Name' className='w-full ' />
+                                            {/* Card number */}
 
-                {/* Alerts Section */}
-                <section className="space-y-4" id='section3'>
-                    <h2 className="text-xl font-semibold">Alerts</h2>
-                    <div className="flex flex-wrap gap-4">
-                        {showSimpleAlert &&
-                            <>
-                                <Alert variant="error" size="md" position='bottom' duration={5000}>
-                                    This is a small error alert that will disappear after 5 seconds.
-                                </Alert>
-                                <Alert variant="success" onClose={() => setShowSimpleAlert(false)}>
-                                    Action successful!
-                                </Alert>
-                            </>
-                        }
-                        <Button onClick={() => setShowSimpleAlert(true)}>Simple Alirt</Button>
-                        <Button onClick={() => setShowAlert(true)}>Show Confirmation</Button>
-                    </div>
-                </section>
+                                            <Label htmlFor='Cardnumber' className='mt-6'>Card Number</Label>
+                                            <Input id='Cardnumber' type="text" placeholder='Enter Your Name' className='w-full ' />
+                                            {/* expier in  */}
+                                            <div className=' grid grid-cols-3 gap-2 '>
+                                                <div className='w-full'>
+                                                    <Label htmlFor='month' className='mt-6'>Name</Label>
+                                                    <Dropdown placeholder="Month" id='month' className='' onChange={(values) => console.log(values)}>
+                                                        <DropdownItem value="January">January</DropdownItem>
+                                                        <DropdownItem value="February">February</DropdownItem>
+                                                        <DropdownItem value="March">March</DropdownItem>
+                                                        <DropdownItem value="April">April</DropdownItem>
+                                                        <DropdownItem value="May">May</DropdownItem>
+                                                        <DropdownItem value="June">June</DropdownItem>
+                                                        <DropdownItem value="July">July</DropdownItem>
+                                                        <DropdownItem value="August">August</DropdownItem>
+                                                        <DropdownItem value="September">September</DropdownItem>
+                                                        <DropdownItem value="October">October</DropdownItem>
+                                                        <DropdownItem value="November">November</DropdownItem>
+                                                        <DropdownItem value="December">December</DropdownItem>
+                                                    </Dropdown>
+                                                </div>
+                                                <div className='w-full'>
+                                                    <Label htmlFor='year' className='mt-6'>Year</Label>
+                                                    <Dropdown placeholder="year" id='year' className='' onChange={(values) => console.log(values)}>
+                                                        <DropdownItem value="2023">2023</DropdownItem>
+                                                        <DropdownItem value="2024">2024</DropdownItem>
+                                                        <DropdownItem value="2025">2025</DropdownItem>
+                                                        <DropdownItem value="2026">2026</DropdownItem>
+                                                        <DropdownItem value="2027">2027</DropdownItem>
+                                                        <DropdownItem value="2028">2028</DropdownItem>
+                                                        <DropdownItem value="2029">2029</DropdownItem>
+                                                        <DropdownItem value="2030">2030</DropdownItem>
+                                                        <DropdownItem value="2031">2031</DropdownItem>
+                                                        <DropdownItem value="2032">2032</DropdownItem>
+                                                        <DropdownItem value="2033">2033</DropdownItem>
+                                                    </Dropdown>
+                                                </div>
 
-                <section className="space-y-4  w-full" id='section4'>
-                    <h2 className="text-xl font-semibold">Accordion</h2>
-                    <div className='h-52 flex items-center justify-center w-full'>
-                        <Accordion >
-                            <AccordionItem value="item-1">
-                                <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                                <AccordionContent>
-                                    Yes. It adheres to the WAI-ARIA design pattern
-                                </AccordionContent>
-                            </AccordionItem>
-                            <AccordionItem value="item-2">
-                                <AccordionTrigger>Is it accessible?</AccordionTrigger>
-                                <AccordionContent>
-                                    <Tooltip text="This tooltip appears on the right." position="right" size='xs' className='w-52'>
-                                        <Button>Hover Me</Button>
-                                    </Tooltip>
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                    </div>
-                </section>
+                                                <div className='w-full'>
+                                                    <Label htmlFor='cvv' className='mt-6'>Card Number</Label>
+                                                    <Input id='cvv' type="number" placeholder='Enter Your Name' className='w-full' />
+                                                </div>
+                                            </div>
 
-                {/* Badge Examples */}
-                <section className="space-y-4" id='section5'>
-                    <h2 className="text-xl font-semibold">Badges</h2>
-                    <div className="flex flex-wrap gap-2 items-center ">
-                        <Badge>Default</Badge>
-                        <Badge variant="red" size="sm" >Red</Badge>
-                        <Badge variant="green" style="outline">
-                            Outline Green
-                        </Badge>
-                        <Badge variant="blue" style="light" size="lg">
-                            Light Blue (Large)
-                        </Badge>
-                        <Badge variant="yellow" size="lg">
-                            New
-                        </Badge>
-                        <Badge variant="purple" style="outline" >
-                            <span aria-hidden="true">5</span>
-                            <span className="sr-only">5 notifications</span>
-                        </Badge>
-                    </div>
-                </section>
-
-                {/* Breadcrumb */}
-                <section className="space-y-4" id='section6'>
-                    <h2 className="text-xl font-semibold">Breadcrumb</h2>
-                    <Breadcrumb className="my-4">
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="/category">Category</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbDropdown>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href="#section1">Section 1</BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href="#section2">Section 2</BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink href="#section3">Section 3</BreadcrumbLink>
-                            </BreadcrumbItem>
-                        </BreadcrumbDropdown>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbLink active={true} href="/category">Category</BreadcrumbLink>
-                        </BreadcrumbItem>
-
-                    </Breadcrumb>
-                </section>
-
-                {/* Calendar */}
-                <section className="space-y-4 w-full" id='section7'>
-                    <h2 className="text-xl font-semibold">Calendar</h2>
-
-                    <div className=' flex gap-5 justify-center items-center w-full'>
-                        {/* Basic usage with initial date and placeholder */}
-                        <Calendar
-                            initialDate={new Date()}
-                            placeholder="Select your birthday"
-                            onChange={handleDateChange}
-                        />
-
-                        {/* Example with date range (toDate must be before fromDate) */}
-                        <Calendar
-                            toDate={new Date('2024-01-01')}
-                            fromDate={new Date('2024-01-15')}
-                            initialDate={new Date('2024-01-15')}
-                            onChange={handleDateChange}
-                        />
-
-                        {/* Example with custom theme */}
-                        <Calendar
-                            theme={['pink', 'green', 'gray']}
-                            fromDate={new Date('2024-01-15')}
-                            initialDate={new Date('2024-01-15')}
-                            onChange={handleDateChange}
-                        />
-                        <Calendar
-                            theme={['pink', 'green', 'gray']}
-                            toDate={new Date('2024-01-15')}
-                            initialDate={new Date('2024-01-15')}
-                            onChange={handleDateChange}
-                        />
-                    </div>
-                </section>
-
-                {/* Carousel */}
-                <section className="space-y-4 w-full" id='section8'>
-                    <h2 className="text-xl font-semibold">Carousel</h2>
-                    <div className="relative w-96 h-[300px] mx-auto"> {/* Adjust width and height as needed */}
-                        <Carousel autoplay interval={2500} orientation='vertical'>
-                            <CarouselItem className=" border ">
-                                <img
-                                    src="https://placehold.co/600x400/black/white?text=1"
-                                    alt="Slide 1"
-                                    className="w-full h-full object-cover"
-                                />
-                            </CarouselItem>
-                            <CarouselItem>
-                                <img
-                                    src="https://placehold.co/600x400/black/white?text=2"
-                                    alt="Slide 2"
-                                    className="w-full h-full object-cover"
-                                />
-                            </CarouselItem>
-                            <CarouselItem>
-                                <div className="w-full h-full bg-black flex flex-col items-center justify-center">
-                                    <h3 className="text-3xl text-white font-bold">Custom Content</h3>
-                                    roles watch
+                                            <Button className='mt-6 w-full'>
+                                                Continue
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </CarouselItem>
-                        </Carousel>
-                    </div>
-                </section>
 
-                {/* Checkbox */}
-                <section id='section9' className="space-y-4 w-full" >
-                    <h2 className="text-xl font-semibold">Check box </h2>
-                    <div className=' flex gap-5 justify-center items-center w-full'>
-                        <div className='flex' >
-                            <Checkbox id={"lable1"} />
-                            <Label htmlFor={"lable1"}>Default</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="outline" id="Outline" />
-                            <Label htmlFor={"Outline"}>Outline</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="secondary" id="Secondary1" />
-                            <Label htmlFor={"Secondary1"}>Secondary1</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="danger" id="Danger" />
-                            <Label htmlFor={"Danger"}>Danger</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="warning" id="Warning" />
-                            <Label htmlFor={"Warning"}>Warning</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="info" id="Info" />
-                            <Label htmlFor={"Info"}>Info</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox size="sm" label="Small (Default)" />
-                            <Label htmlFor={"Secondary"}>Secondary</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="outline" size="sm" id="Small (Outline)" />
-                            <Label htmlFor={"Small"}>Small</Label>
-                        </div>
-                        <div className='flex' >
-                            <Checkbox variant="danger" size="lg" id="Large (Danger)" />
-                            <Label htmlFor={"Large"}>Large (Danger)</Label>
-                        </div>
-                    </div>
-                </section>
+                                <div>
+                                    <div className='max-w-96 mx-auto w-full'>
+                                        <div className=' border border-gray-500 p-4 rounded-lg pb-8 '>
+                                            <h1 className=' text-md font-bold'>Report an issue</h1>
+                                            <h3 className=' text-sm'>What area are you having problems with?</h3>
+                                            <div className=' grid grid-cols-2 gap-2 mt-6'>
+                                                <div>
+                                                    <Label htmlFor='reportarea'>Area</Label>
+                                                    <Dropdown placeholder="Team" id='reportarea' className='' onChange={(values) => console.log(values)}>
+                                                        <DropdownItem value="Team">Team</DropdownItem>
+                                                        <DropdownItem value="Billing">Billing</DropdownItem>
+                                                        <DropdownItem value="Account">Account</DropdownItem>
+                                                        <DropdownItem value="Deployments">Deployments</DropdownItem>
+                                                        <DropdownItem value="Support">Support</DropdownItem>
+                                                    </Dropdown>
+                                                </div>
+                                                <div>
+                                                    <Label htmlFor='reportSecurityLevel'>Security Level</Label>
+                                                    <Dropdown placeholder="Severity 1 (Highest)" id='reportSecurityLevel' className=' text-nowrap' onChange={(values) => console.log(values)}>
+                                                        <DropdownItem value="Security_1">Severity 1 (Highest)</DropdownItem>
+                                                        <DropdownItem value="Security_2">Security 2</DropdownItem>
+                                                        <DropdownItem value="Security_3">Security 3</DropdownItem>
+                                                        <DropdownItem value="Security_4">Severity 4 (Lowest)</DropdownItem>
+                                                    </Dropdown>
+                                                </div>
+                                            </div>
+                                            <Label htmlFor="Subject" className='mt-4'>Subject</Label>
+                                            <Input id='Subject' type="text" placeholder='I Need Help With' className='w-full ' />
+                                            <Label htmlFor="Subject" className='mt-4'>Subject</Label>
+                                            <textarea
+                                                id='Subject'
+                                                className={`mt-1 p-2 block w-full rounded-md placeholder:text-gray-400 bg-gray-900 border hover:bg-opacity-70 border-gray-500 shadow-sm sm:text-sm focus:border  disabled:bg-gray-900/90 disabled:cursor-not-allowed `}
+                                                placeholder='I Need Help With'
+                                            />
+                                            <div className=' grid grid-cols-2 gap-2 mt-6'>
+                                                <Button variant='secondary'>
+                                                    Cancel
+                                                </Button>
+                                                <Button>
+                                                    Submit
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div className='border border-gray-500 p-4 rounded-lg pb-8 max-w-96 mx-auto mt-4'>
+                                            <div className={` rounded-md shadow-lg bg-blue-100 text-blue-800 text-base px-4 py-3 flex flex-col  justify-between w-full max-w-sm transition-opacity duration-300  opacity-100 `}>
+                                                <div className="p-4 text-left">
+                                                    Did you want to save.
+                                                </div>
+                                                <hr className='border-t border-gray-500 my-2 ' />
 
-                {/* Dropdown */}
-                <section id='section10' className=' space-y-6 w-full' >
-                    <h2 className="text-xl font-semibold">Dropdown</h2>
-                    <div className=' flex gap-5 justify-center items-center w-full' >
-                        <Dropdown searchablebar className="w-56" value={DropdownValue} onChange={(newValue) => { setDropdownValue(newValue) }}  >
-                            <DropdownItem>Option 1</DropdownItem>
-                            <DropdownItem>Choice 2</DropdownItem>
-                            <DropdownItem>Selection 3</DropdownItem>
-                            <DropdownItem>Item 4</DropdownItem>
-                            <DropdownItem>Value 5</DropdownItem>
-                            <DropdownItem>Pick 6</DropdownItem>
-                            <DropdownItem>Element 7</DropdownItem>
-                            <DropdownItem>Entry 8</DropdownItem>
-                            <DropdownItem>Alternative 9</DropdownItem>
-                            <DropdownItem>Possibility 10</DropdownItem>
-                            <DropdownItem>Choice 11</DropdownItem>
-                            <DropdownItem>Option 12</DropdownItem>
-                            <DropdownItem>Selection 13</DropdownItem>
-                            <DropdownItem>Item 14</DropdownItem>
-                            <DropdownItem>Value 15</DropdownItem>
-                        </Dropdown>
-                        <Dropdown className="w-96" value={DropdownValue} onChange={(newValue) => { setDropdownValue(newValue) }} placeholder={"Pic Any One"} multiple  >
-                            <DropdownItem>hello</DropdownItem>
-                            <DropdownItem>hello</DropdownItem>
-                            <DropdownItem>Entry 8</DropdownItem>
-                            <DropdownItem>Alternative 9</DropdownItem>
-                            <DropdownItem>Possibility 10</DropdownItem>
-                            <DropdownItem>Possibility 10</DropdownItem>
-                        </Dropdown>
-                    </div>
-                </section>
+                                                <div className="items-center justify-end w-full space-x-2 grid grid-cols-2">
 
-                {/* Cammondbox */}
-                <section className="space-y-4 w-full" id='section11'>
-                    <h2 className="text-xl font-semibold">Command Box</h2>
-                    <div className=' flex gap-5 justify-center items-center w-full text-white' >
-                        <Command onSearch={handleSearch} searchablebaricon="🔍">
-                            <CommandGroup title="Actions">
-                                <CommandItem onClick={() => console.log('Edit clicked!')} isActive={searchTerm === 'Edit'}>
-                                    <CommandItemIcon>✏️</CommandItemIcon>
-                                    <CommandItemText>Edit</CommandItemText>
-                                    <CommandItemSuggestionText>Ctrl+E</CommandItemSuggestionText>
-                                </CommandItem>
+                                                    <>
+                                                        <Button
+                                                            size={'md'}
+                                                            variant="secondary"
+                                                            onClick={() => {
+                                                                console.log("Cancel")
+                                                            }}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            size={"md"}
+                                                            variant="primary"
+                                                            onClick={() => {
+                                                                console.log("Confirm")
+                                                            }}
+                                                        >
+                                                            Confirm
+                                                        </Button>
+                                                    </>
+                                                </div>
+                                            </div >
+                                        </div>
+                                        <div className='border border-gray-500 p-4 rounded-lg pb-8 max-w-96 mx-auto mt-4'>
+                                            <div className={` rounded-md shadow-lg bg-blue-100 text-blue-800 text-base px-4 py-3 flex flex-col  justify-between w-full max-w-sm transition-opacity duration-300  opacity-100 `}>
+                                                <div className="p-4 text-left">
+                                                    hello this is an alirt and confirm
+                                                </div>
+                                                <hr className='border-t border-gray-500 my-2 ' />
+                                                <div className="items-center justify-end w-full space-x-2 grid grid-cols-2">
 
-                                <CommandItem onClick={() => console.log('Delete clicked!')}>
-                                    <CommandItemIcon>🗑️</CommandItemIcon>
-                                    <CommandItemText>Delete</CommandItemText>
-                                </CommandItem>
+                                                    <div>
+                                                    </div>
+                                                    <button className={`duration-100 flex items-center justify-center rounded-md disabled:opacity-50 disabled:cursor-not-allowed  bg-gray-900 hover:bg-gray-800 text-gray-100 border border-gray-700 hover:border-transparent px-3 py-1.5 text-base font-medium  `}
+                                                        onClick={console.log("close")}>
+                                                        <svg className="h-5 w-5  fill-gray-400" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div >
+                                        </div>
+                                        <div className='border border-gray-500 p-4 rounded-lg pb-8 max-w-96 mx-auto mt-4'>
+                                            <h1 className='text-md font-bold'>Subscribe to Notifications</h1>
+                                            <h3 className='text-sm'>{"Choose the types of notifications you'd like to receive:"}</h3>
+                                            <div className='space-y-3 mt-4'>
+                                                <div className='flex items-center'>
+                                                    <Checkbox variant="default" id="emailNotifications" />
+                                                    <Label htmlFor="emailNotifications" className='text-white' >Email Notifications</Label>
+                                                </div>
 
-                                {/* More Command Items can be added here */}
-                            </CommandGroup>
+                                                <div className='flex items-center'>
+                                                    <Checkbox variant="default" id="smsNotifications" />
+                                                    <Label htmlFor="smsNotifications" className='text-white' >Push Notifications</Label>
+                                                </div>
+                                                <div className='flex items-center'>
+                                                    <Checkbox variant="default" id="notification" />
+                                                    <Label htmlFor="notification" className='text-white' >Push Notifications</Label>
+                                                </div>
+                                            </div>
+                                            <Button className='mt-6 w-full'>
+                                                Save Preferences
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <CommandGroup title="Settings">
-                                <CommandItem>
-                                    <CommandItemIcon>⚙️</CommandItemIcon>
-                                    <CommandItemText>General</CommandItemText>
-                                </CommandItem>
-                                <CommandItem>
-                                    <CommandItemIcon>🎨</CommandItemIcon>
-                                    <CommandItemText>Appearance</CommandItemText>
-                                </CommandItem>
-                            </CommandGroup>
-                        </Command>
-                    </div>
-                </section>
+                                <div className='max-w-96 mx-auto w-full'>
+                                    <div className=' border border-gray-500 p-4 rounded-lg pb-8 '>
+                                        <div>
+                                            <h3 className=' font-bold text-white'>Team Members</h3>
+                                            <h3 className='text-gray-400 text-sm'>Invite your team members to collaborate.</h3>
+                                        </div>
+                                        <div className='flex items-center w-full gap-2 mt-5 justify-between'>
+                                            <div className='flex items-center gap-2 '>
+                                                <div><CgProfile className='text-4xl' /></div>
+                                                <div>
+                                                    <h3 className='text-sm font-bold'>Arsalan</h3>
+                                                    <h4 className='text-sm text-gray-500'>@arsalan21</h4>
+                                                </div>
+                                            </div>
+                                            <div className='flex-grow max-w-36'>
+                                                <Dropdown placeholder="Owner" className=' ' id='year' onChange={(values) => console.log(values)}>
+                                                    <DropdownItem value="Viewer" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Viewer</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view and comment.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Developer" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Developer</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view, comment and edit.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Billing" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Billing</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view, comment and manage billing.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Owner" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Owner</h3>
+                                                            <h3 className='text-sm text-gray-500'>Admin-level access to all resources.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                        <div className='flex items-center w-full gap-2 mt-5 justify-between'>
+                                            <div className='flex items-center gap-2 '>
+                                                <div><CgProfile className='text-4xl' /></div>
+                                                <div>
+                                                    <h3 className='text-sm font-bold'>Arsalan</h3>
+                                                    <h4 className='text-sm text-gray-500'>@arsalan21</h4>
+                                                </div>
+                                            </div>
+                                            <div className='flex-grow max-w-36'>
+                                                <Dropdown placeholder="Member" className=' ' id='year' onChange={(values) => console.log(values)}>
+                                                    <DropdownItem value="Viewer" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Viewer</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view and comment.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Developer" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Developer</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view, comment and edit.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Billing" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Billing</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view, comment and manage billing.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Owner" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Owner</h3>
+                                                            <h3 className='text-sm text-gray-500'>Admin-level access to all resources.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                        <div className='flex items-center w-full gap-2 mt-5 justify-between'>
+                                            <div className='flex items-center gap-2 '>
+                                                <div><CgProfile className='text-4xl' /></div>
+                                                <div>
+                                                    <h3 className='text-sm font-bold'>Arsalan</h3>
+                                                    <h4 className='text-sm text-gray-500'>@arsalan21</h4>
+                                                </div>
+                                            </div>
+                                            <div className='flex-grow max-w-36'>
+                                                <Dropdown placeholder="Member" className=' ' id='year' onChange={(values) => console.log(values)}>
+                                                    <DropdownItem value="Viewer" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Viewer</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view and comment.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Developer" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Developer</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view, comment and edit.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Billing" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Billing</h3>
+                                                            <h3 className='text-sm text-gray-500'>Can view, comment and manage billing.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                    <DropdownItem value="Owner" className=' border-t border-gray-500'>
+                                                        <div>
+                                                            <h3>Owner</h3>
+                                                            <h3 className='text-sm text-gray-500'>Admin-level access to all resources.</h3>
+                                                        </div>
+                                                    </DropdownItem>
+                                                </Dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='border border-gray-500 p-4 rounded-lg pb-8 max-w-96 mx-auto mt-4'>
+                                        <div className='flex items-center w-full gap-2'>
+                                            <div className='flex items-center w-full gap-2 '>
+                                                <div><CgProfile className='text-4xl' /></div>
+                                                <div>
+                                                    <h3 className='text-md font-normal'>Shaikh Adnan</h3>
+                                                    <h4 className='text-sm text-gray-500'>@shaikhadnan7621</h4>
+                                                </div>
+                                            </div>
+                                            <div className='border text-2xl p-2  border-gray-500 rounded-full'>
+                                                <FaPlus />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className='mr-auto w-fit max-w-72 bg-gray-900 rounded-md text-gray-300  px-4 py-1.5 mt-4' >how can i help you today</p>
+                                            <p className='ml-auto w-fit max-w-72 bg-gray-300 rounded-md text-gray-700  px-4 py-1.5 mt-4' >{"Hey, I'm having trouble with my account."}</p>
+                                            <p className='mr-auto w-fit max-w-72 bg-gray-900 rounded-md text-gray-300  px-4 py-1.5 mt-4' >What seems to be the problem?</p>
+                                            <p className='ml-auto w-fit max-w-72 bg-gray-300 rounded-md text-gray-700  px-4 py-1.5 mt-4' >{"I can't log in."}</p>
+                                        </div>
+                                        <div>
+                                            <Button className='mt-6 w-full'>
+                                                Reply
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div className='border border-gray-500 p-4 rounded-lg pb-8 max-w-96 mx-auto mt-4'>
+                                        <Tabs defaultActiveKey={"Urban"} className='w-full p-0'>
+                                            <TabList className=' max-w-7xl mx-auto w-full grid grid-cols-2 gap-2 bg-gray-800 p-1 rounded-md' defaultActiveKey={"city"}>
+                                                <TabTrigger tabKey={"Urban"} >
+                                                    Urban
+                                                </TabTrigger>
+                                                <TabTrigger tabKey={"Rural"} >
+                                                    Rural
+                                                </TabTrigger>
+                                            </TabList>
+                                            <TabContent tabKey={"Urban"} className='bg-gray-800 p-3 rounded-md  '>
+                                                Urban areas are characterized by high population density, a diverse range of industries, and a bustling cultural scene. They offer a wide array of amenities, job opportunities, and entertainment options, attracting people from all walks of life.
+                                            </TabContent>
+                                            <TabContent tabKey={"Rural"} className='bg-gray-800 p-3 rounded-md  '>
+                                                Rural areas are known for their tranquil landscapes, close-knit communities, and slower pace of life. Residents often enjoy strong social connections and a close relationship with nature, with opportunities for outdoor recreation.
+                                            </TabContent>
+                                        </Tabs>
+                                    </div>
+                                </div>
 
-                {/* dilog */}
-                <section className="space-y-4 w-full" id='section12'>
-                    <h2 className="text-xl font-semibold">Dilog box</h2>
-                    <div className=' flex gap-5 justify-center items-center w-full text-white' >
-                        <DilogContener rightclick={() => console.log('Menu 1 clicked!')} className={"border-gray-500 border w-1/2 p-2"}>
-                            <span>Right-click me for Menu 1</span>
-                            <DilogMenuContent className=" border-gray-500 border  ">
-                                <DilogMenuList > <div>Option 1</div></DilogMenuList>
-                                <DilogMenuList > <div>Option 2</div></DilogMenuList>
-                            </DilogMenuContent>
-                        </DilogContener>
-
-                        <DilogContener rightclick={() => console.log(' Menu 2 clicked!')} className={"border-gray-500 border w-1/2 p-2"}>
-                            <DilogContent>
-                                <span>Right-click me for Menu 2</span>
-                                hehehehe
-                            </DilogContent>
-
-                            <DilogMenuContent className=" w-96  " >
-                                <DilogMenuGroup title="hello">
-                                    <DilogMenuList >Item A</DilogMenuList>
-                                    <DilogMenuList>Item B</DilogMenuList>
-                                    <DilogMenuList >Item A</DilogMenuList>
-                                    <DilogMenuList>Item B</DilogMenuList>
-                                </DilogMenuGroup>
-                                <DilogMenuGroup>
-
-                                    <DilogMenuList >Item A</DilogMenuList>
-                                    <DilogMenuList>Item B</DilogMenuList>
-                                </DilogMenuGroup>
-                            </DilogMenuContent>
-                        </DilogContener>
-                    </div>
-                </section>
-
-                {/* Input */}
-                <section className="space-y-4 w-full" id='section13'>
-                    <h2 className="text-xl font-semibold">Input</h2>
-                    <div className='flex gap-5 justify-center items-center w-full  ' >
-                        <Input label="Jelllo" value={value} onChange={(e) => setvalue(e.taget.value)} />
-                    </div>
-                </section>
-
-                {/* Input */}
-                <section className="space-y-4 w-full" id='section14'>
-                    <h2 className="text-xl font-semibold">Input</h2>
-                    <div className='flex flex-col   justify-start w-full  ' >
-                        <Label htmlFor={"hello"}>hello</Label>
-                        <Input disabled label="Jelllo" value={value} onChange={(e) => setvalue(e.taget.value)} className='w-[340px]' />
-                    </div>
-                </section>
-
-                {/* DataTabel */}
-                <section className="space-y-4 w-full" id='section15'>
-                    <h2 className="text-xl font-semibold">Datatable</h2>
-                    <div className='flex flex-col justify-start w-full'>
-                        <ScrollArea className={"w-1/2 mx-auto h-96 overflow-scroll"} orientation='horizontal'>
-                            <Datatable className="w-fit">
-                                <TableHead>
-                                    <TableRow >
-                                        <TableHeadingCell className={"hover:bg-slate-800 w-96"} >
-                                            ID
-                                        </TableHeadingCell>
-                                        <TableHeadingCell className={"hover:bg-slate-800 w-96"} >
-                                            Name
-                                        </TableHeadingCell>
-                                        <TableHeadingCell className={"hover:bg-slate-800 w-96"} >
-                                            Category
-                                        </TableHeadingCell>
-                                        <TableHeadingCell className={"hover:bg-slate-800 w-96"} >
-                                            Stock
-                                        </TableHeadingCell>
-                                        <TableHeadingCell className={"  hover:bg-slate-800 w-52 text-center"} >
-                                            Avilability
-                                        </TableHeadingCell>
-                                        <TableHeadingCell className={"hover:bg-slate-800 w-96"}>
-                                            Price
-                                        </TableHeadingCell>
-                                        <TableHeadingCell className={"hover:bg-slate-800 w-96"}>
-                                            Rating
-                                        </TableHeadingCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody className="w-fit">
-                                    {
-                                        sampleTableData.map((row) => {
-                                            return (
-                                                <TableRow >
-                                                    <TableCell className={"hover:bg-slate-800 w-96"}>
-                                                        {row.id}
-                                                    </TableCell>
-                                                    <TableCell className={"hover:bg-slate-800 w-96"}>
-                                                        {row.productName}
-                                                    </TableCell>
-                                                    <TableCell className={"hover:bg-slate-800 w-96"}>
-                                                        {row.category}
-                                                    </TableCell>
-                                                    <TableCell className={"hover:bg-slate-800 w-96"}>
-                                                        {row.stock}
-                                                    </TableCell>
-                                                    <TableCell className={"  hover:bg-slate-800 w-52 text-center"}>
-                                                        {row.available ? "yes" : "oh no"}
-                                                    </TableCell>
-                                                    <TableCell className={"hover:bg-slate-800"}>
-                                                        {row.price}
-                                                    </TableCell>
-                                                    <TableCell className={"hover:bg-slate-800"}>
-                                                        {row.rating}
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })
-                                    }
-                                </TableBody>
-                            </Datatable>
-                        </ScrollArea>
-                    </div>
-                </section>
-
-                {/* scroll Area */}
-                <section className="space-y-4 w-full" id='section16'>
-                    <h2 className="text-xl font-semibold">Datatable</h2>
-                    <div className='flex flex-col justify-start w-full'>
-                        <ScrollArea className={"w-[50vw] h-[50vh] mx-auto overflow-scroll"} orientation=''>
-                            <div
-                                className='w-screen h-screen'
-                                style={{
-                                    backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.5) 1px, transparent 1px), 
-                          linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 1px, transparent 1px)`,
-                                    backgroundSize: '40px 40px', // Adjust grid size here
-                                    backgroundColor: '#000000', // Optional: set a background color
-                                }}
-                            >
-                                {/* You can place other components or content here */}
                             </div>
+                        </TabContent>
+                    </Tabs>
+                </section>
 
-                        </ScrollArea>
-                    </div>
-                </section >
 
-                <section className="space-y-4 w-full" id='section17'>
-                    <h2 className="text-xl font-semibold">Datatable</h2>
-                    <div className='flex flex-col justify-start w-1/2 mx-auto min-w-64 min-h-80 '>
 
-                        <ResizablePanelGroup direction="horizontal">
-                            <ResizablePanel defaultSize={300}>
-                                <div className="p-4 h-full">
-                                    <h1 className="text-2xl">Panel 1</h1>
-                                    <p>This is the first panel of the outer group.</p>
-                                </div>
-                            </ResizablePanel>
+                {/* AI-Powered UI Section */}
+                <section className="bg-gray-800 text-white py-12 my-12"> {/* Added margin-top and margin-bottom */}
+                    <div className="container mx-auto text-center px-4 sm:px-6 lg:px-8">
+                        <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">
+                            AI-Powered UI for Effortless Design
+                        </h2>
+                        <p className="text-lg mb-8 text-gray-300">
+                            Our components are designed with AI insights to help you create intuitive and engaging user experiences.
+                        </p>
 
-                            <ResizablePanel defaultSize={500}>
-
-                                <ResizablePanelGroup direction="vertical">
-                                    <ResizablePanel defaultSize={100} direction='vertical'>
-                                        <div className="p-4 h-full">
-                                            <h1 className="text-xl">Nested Panel 1</h1>
-                                            <p>This is the first panel in the nested group.</p>
-                                        </div>
-                                    </ResizablePanel>
-                                    <ResizablePanel defaultSize={100} direction='vertical'>
-                                        <div className="p-4   h-full">
-                                            <h1 className="text-xl">Nested Panel 2</h1>
-                                            <p>This is the second panel in the nested group.</p>
-                                        </div>
-                                    </ResizablePanel>
-                                </ResizablePanelGroup>
-                            </ResizablePanel>
-                        </ResizablePanelGroup>
                     </div>
                 </section>
 
-                <section className="space-y-4 w-full" id='section17'>
-                    <h2 className="text-xl font-semibold">Datatable</h2>
-                    <div className='flex flex-col justify-start w-1/2 mx-auto min-w-64 min-h-80 '>
+                {/* Experience the Future Section */}
+                <section className="py-12 bg-gradient-to-r from-gray-900 to-gray-800 mb-12"> {/* Added margin-bottom */}
+                    <div className="container mx-auto min-h-[500px] grid grid-cols-1 lg:grid-cols-2  items-center justify-between px-4 sm:px-6 lg:px-8">
+                        {/* Image (Left Side) */}
+                        <div className=" flex justify-center items-center ">
+                            <Image
+                                src="/chatheroimage.png"
+                                alt="AI Chat Window"
+                                width={500} // Adjust width as needed
+                                height={400} // Adjust height as needed
+                                className="rounded-md shadow-lg transform transition-transform hover:scale-105"
+                            />
+                        </div>
 
-                        <h1 className="text-2xl font-bold mb-4">Progress Bar Example</h1>
-                        <ProgressBar progress={30} />
+                        {/* Content (Right Side) */}
+                        <div className=" text-white text-center lg:text-left">
+                            <h2 className="text-3xl font-bold mb-4">Experience the Future of UI Design</h2>
+                            <p className="text-lg mb-6 text-gray-300">
+                                Interact with our AI-powered chat to discover the perfect components for your project.
+                            </p>
+                            <Link href={"/chat"}
+                            >
+                                <Button variant="primary" size="lg">
+                                    Chat with Our AI
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
                 </section>
-            </main >
-            {showAlert && (
-                <Alert
-                    variant="warning"
-                    size="md"
-                    onConfirm={() => {
-                        console.log('Confirmed!');
-                        setShowAlert(false);
-                    }}
-                    onClose={() => setShowAlert(false)}
-                >
-                    Are you sure you want to delete this?
-                </Alert>
-            )}
+
+                {/* Footer */}
+                <footer className="bg-gray-900 text-white px-4 py-6 mt-8">
+                    <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {/* Column 1: Logo & About */}
+                        <div>
+                            <h2 className="text-xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">
+                                <span className=' text-2xl'>uiZ</span>
+                            </h2>
+                            <p className="text-sm text-gray-400">
+                                A curated collection of reusable React components to supercharge your next project.
+                            </p>
+                        </div>
+
+                        {/* Column 2: Links */}
+                        <div>
+                            <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
+                            <ul className="text-sm space-y-2">
+                                <li>
+                                    <Link href="/components" className="hover:text-gray-300">Components</Link>
+                                </li>
+                                <li>
+                                    <Link href="/pricing" className="hover:text-gray-300">Pricing</Link>
+                                </li>
+                                <li>
+                                    <Link href="/blog" className="hover:text-gray-300">Blog</Link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Column 3: Contact */}
+                        <div>
+                            <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
+                            <ul className="text-sm space-y-2">
+                                <li>
+                                    <a href="mailto:info@example.com" className="hover:text-gray-300">info@example.com</a>
+                                </li>
+                                <li>
+                                    <a href="tel:+1234567890" className="hover:text-gray-300">+1-234-567-890</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Column 4: Social Media */}
+                        <div>
+                            <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
+                            <ul className="flex space-x-4">
+                                <li>
+                                    <a href="https://twitter.com/ShaikhAdnan7622" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300">
+                                        <FaTwitter className="text-2xl" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/in/shaikhadnan7621" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300">
+                                        <FaLinkedin className="text-2xl" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/ShaikhAdnan7621" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300">
+                                        <FaGithub className="text-2xl" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://instagram.com/mr_silent7621" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300">
+                                        <FaInstagram className="text-2xl" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:shaikhadnan7621@gmail.com" className="text-gray-400 hover:text-gray-300">
+                                        <FaEnvelope className="text-2xl" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    {/* Copyright */}
+                    <div className="container mx-auto mt-8 border-t border-gray-700 pt-4">
+                        <p className="text-center text-sm text-gray-500">
+                            &copy; {new Date().getFullYear()} uiZ. All rights reserved.
+                        </p>
+                    </div>
+                </footer>
+            </ScrollArea >
         </div >
-    );
+    )
 }
+
+export default Page

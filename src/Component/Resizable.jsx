@@ -1,6 +1,28 @@
 'use client';
 import React, { useState, useRef } from 'react';
 
+/**
+ * A group of resizable panels that can be resized horizontally or vertically.
+ *
+ * @param {object} props - The component props.
+ * @param {'horizontal'|'vertical'} [props.direction='horizontal'] - The direction of the resize.
+ * @param {React.ReactNode} props.children - The children of the panel group.
+ * @returns {JSX.Element} The rendered panel group.
+ * 
+ * @example
+ * // Horizontal resizing
+ * <ResizablePanelGroup>
+ *   <ResizablePanel defaultSize={200}>Panel 1</ResizablePanel>
+ *   <ResizablePanel>Panel 2</ResizablePanel>
+ * </ResizablePanelGroup>
+ * 
+ * @example
+ * // Vertical resizing
+ * <ResizablePanelGroup direction="vertical">
+ *   <ResizablePanel defaultSize={150}>Panel 1</ResizablePanel>
+ *   <ResizablePanel>Panel 2</ResizablePanel>
+ * </ResizablePanelGroup>
+ */
 const ResizablePanelGroup = ({ direction = 'horizontal', children }) => {
     const isHorizontal = direction === 'horizontal';
     return (
@@ -10,13 +32,22 @@ const ResizablePanelGroup = ({ direction = 'horizontal', children }) => {
     );
 };
 
+/**
+ * A single resizable panel within a ResizablePanelGroup.
+ *
+ * @param {object} props - The component props.
+ * @param {number} [props.defaultSize=300] - The default size of the panel in pixels.
+ * @param {'horizontal'|'vertical'} [props.direction='horizontal'] - The direction of the resize.
+ * @param {React.ReactNode} props.children - The children of the panel.
+ * @returns {JSX.Element} The rendered panel.
+ */
 const ResizablePanel = ({ defaultSize = 300, direction = 'horizontal', children }) => {
     const [size, setSize] = useState(defaultSize);
     const panelRef = useRef(null);
     const isHorizontal = direction === 'horizontal';
 
     const handleMouseMove = (e) => {
-        e.preventDefault();  
+        e.preventDefault();
 
         const boundingRect = panelRef.current.getBoundingClientRect();
 
@@ -57,7 +88,7 @@ const ResizablePanel = ({ defaultSize = 300, direction = 'horizontal', children 
                 style={{
                     width: isHorizontal ? '5px' : '100%',
                     height: isHorizontal ? '100%' : '5px',
-                    cursor: isHorizontal ? 'col-resize' : 'row-resize' // Add this line
+                    cursor: isHorizontal ? 'col-resize' : 'row-resize' 
                 }}
                 onMouseDown={handleMouseDown}
             />

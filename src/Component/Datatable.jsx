@@ -1,124 +1,96 @@
-import React from 'react'
+/**
+ * @file Provides a set of reusable components for creating data tables.
+ *
+ * This module offers a collection of components that can be combined to build customizable
+ * and visually appealing data tables. The components handle the basic structure and styling,
+ * allowing you to focus on presenting your data effectively.
+ */
+import React from 'react';
 
 /**
- * 
+ * The main Datatable component, representing the entire table.
+ *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} props.children - The content to be displayed within the Datatable.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the Datatable.
- * 
- * @example
- * // Basic usage with horizontal scrolling
- * <Datatable>
- *  <TableBody>
- *   <TableRow>
- *      <TableCell>cell 1</TableCell>
- *   </TableRow>
- *  </TableBody>
- * </Datatable>
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content of the table, including table head, body, rows, and cells.
+ * @param {string} [props.className] - Additional CSS classes to apply to the table container.
  */
 export default function Datatable({ children, className }) {
   return (
-    <table className={`bg-gray-900 rounded-md border border-gray-500 ${className}`} >
+    <table className={`bg-gray-900 rounded-md border border-gray-500 ${className}`}>
       {children}
     </table>
-  )
+  );
 }
 
 /**
- * 
+ * The table header component, typically containing column headings.
+ *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} props.children - The content to be displayed within the TableHead.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the TableHead.
- * 
- * @example
- * // Basic usage with horizontal scrolling
- * <TableHead>
- *   <TableRow>
- *      <TableHeadingCell>heading cell 1</TableHeadingCell>
- *   </TableRow>
- *  </TableHead>
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content of the table header, usually `TableHeadingCell` components.
+ * @param {string} [props.className] - Additional CSS classes to apply to the table header.
  */
 export function TableHead({ children, className }) {
   return (
-    <thead className={` ${className}`}>{children}</thead>
-  )
+    <thead className={`${className}`}>{children}</thead>
+  );
 }
 
-
 /**
- * 
+ * The table body component, containing the main data rows.
+ *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} props.children - The content to be displayed within the TableBody.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the TableBody.
- * 
- * @example
- * // Basic usage with horizontal scrolling
- * <TableBody>
- *   <TableRow>
- *      <TableCell>cell 1</TableCell>
- *   </TableRow>
- *  </TableBody>
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content of the table body, typically `TableRow` components.
+ * @param {string} [props.className] - Additional CSS classes to apply to the table body.
  */
 export function TableBody({ children, className }) {
   return (
     <tbody className={`m-2 border-t border-t-orange-700 space-x-1 ${className}`}>
       {children}
     </tbody>
-  )
+  );
 }
 
 /**
- * 
+ * A single row within the table body.
+ *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} props.children - The content to be displayed within the TableRow.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the TableRow.
- * 
- * @example
- * // Basic usage with horizontal scrolling
- * <TableRow>
- *      <TableCell>cell 1</TableCell>
- * </TableRow>
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content of the table row, usually `TableCell` components.
+ * @param {string} [props.className] - Additional CSS classes to apply to the table row.
  */
 export function TableRow({ children, className }) {
   return (
     <tr className={` px-2 border-b border-gray-500 ${className}`}>{children}</tr>
-  )
+  );
 }
 
 /**
- * 
+ * A standard data cell within a table row.
+ *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} props.children - The content to be displayed within the TableCell.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the TableCell.
- * 
- * @example
- * // Basic usage with horizontal scrolling
- * <TableCell>cell 1</TableCell>
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content to display within the table cell.
+ * @param {string} [props.className] - Additional CSS classes to apply to the table cell.
  */
 export function TableCell({ children, className }) {
   return (
-    <td className={`rounded-md  px-2 py-1 ${className}`} >{children}</td>
-  )
+    <td className={`rounded-md  px-2 py-1 ${className}`}>{children}</td>
+  );
 }
 
 /**
- * 
+ * A header cell, typically used within the `TableHead` component for column headings.
+ *
  * @component
- * @param {Object} props
- * @param {React.ReactNode} props.children - The content to be displayed within the TableHeadingCell.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the TableHeadingCell.
- * 
- * @example
- * // Basic usage with horizontal scrolling
- * <TableHeadingCell>heading cell 1</TableHeadingCell>
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content to display within the header cell.
+ * @param {string} [props.className] - Additional CSS classes to apply to the header cell.
  */
 export function TableHeadingCell({ children, className }) {
   return (
     <th className={` p-2 ${className}`}>{children}</th>
-  )
-} 
+  );
+}

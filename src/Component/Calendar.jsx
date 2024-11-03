@@ -1,32 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
+ 
+
 
 /**
- * A simple and interactive calendar component with date range selection.
+ * @typedef {Object} CalendarProps
+ * @property {string} [className] - Additional CSS class names to apply to the calendar container.
+ * @property {Date} [initialDate] - The initial date to display in the calendar. Defaults to the current date.
+ * @property {Date} [toDate] - The latest selectable date in the calendar.
+ * @property {Date} [fromDate] - The earliest selectable date in the calendar.
+ * @property {string} [position='absolute'] - The position of the calendar dropdown.
+ * @property {string} [placeholder="Select date"] - The placeholder text for the input field.
+ * @property {Function} [onChange] - A callback function that is triggered when a date is selected.
+ * @property {Array<string>} [theme=['blue', 'green']] - An array of two color names for primary and secondary colors.
  *
- * The Calendar component allows users to navigate between months and select dates.
- * It provides a visual representation of a calendar month with day names, dates, and
- * highlights for the current day, selected date, and date range.
+ * A customizable and responsive calendar component for selecting dates.
  *
- * @param {object} props - The component's props.
- * @param {Date} [props.initialDate] - The initial date to display in the calendar. Defaults to the current date.
- * @param {Date} [props.toDate] - The start date of the allowed date range. If not provided, there's no start limit.
- * @param {Date} [props.fromDate] - The end date of the allowed date range. If not provided, there's no end limit.
- * @param {string} [props.placeholder="Select date"] - The placeholder text for the input box.
- * @param {Array<string>} [props.theme=['blue', 'gray']] - An array of two Tailwind CSS color names for theming: [primary, secondary].
- * @param {function(Date)} [props.onChange] - A callback function that is triggered when the selected date changes. The selected date is passed as an argument.
+ * @param {CalendarProps} props - The properties for the calendar component.
+ * @returns {JSX.Element} The rendered calendar component.
  * 
- * @returns {JSX.Element} The rendered Calendar component.
- * 
- * @example
+ * example * 
  * <Calendar 
- *   initialDate={new Date(2024, 0, 1)} 
- *   toDate={new Date(2024, 2, 15)} 
- *   fromDate={new Date(2024, 3, 30)} 
- *   placeholder="Choose a date"
- *   theme={['red', 'gray']}
- *   onChange={(date) => console.log("Selected date:", date)} 
+ *     initialDate={new Date('2024-03-15')} 
+ *     toDate={new Date('2025-03-15')} 
+ *     fromDate={new Date('2023-03-15')} 
+ *     placeholder="Select a date" 
+ *     onChange={handleDateChange} 
+ *     theme={['red', 'gray']} 
  * />
+ * 
  */
+
 const Calendar = ({ className, initialDate, toDate, fromDate,position, placeholder = "Select date", onChange, theme }) => {
     const [currentDate, setCurrentDate] = useState(initialDate || new Date());
     const [selectedDate, setSelectedDate] = useState(null);

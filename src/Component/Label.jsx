@@ -1,28 +1,26 @@
-import React from 'react'
-
 /**
- * A simple label component for form elements.
- * 
+ * Renders a label element with default styling and optional class names.
+ *
  * @component
- * @param {Object} props - The component's props.
- * @param {string} props.htmlFor - The ID of the form element the label is associated with.
- * @param {React.ReactNode} props.children - The content of the label.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the label.
- * @param {Object} [props....rest] - Any other props are spread to the underlying `<label>` element.
- * 
+ *
+ * @param {string} htmlFor - The ID of the element that the label is associated with.
+ * @param {ReactNode} children - The content of the label.
+ * @param {string} [className] - Additional class names to apply to the label.
+ * @param {object} [...rest] - Any other props to pass to the label element.
+ *
+ * @returns {JSX.Element} The rendered label element.
+ *
  * @example
- * // Basic usage
  * <Label htmlFor="name">Name:</Label>
- * <input type="text" id="name" />
  */
 export default function Label({ htmlFor, children, className, ...rest }) {
     return (
         <label
-            htmlFor={htmlFor} 
+            htmlFor={htmlFor}
             className={`block text-sm text-gray-400 ${className}`}
             {...rest}
         >
             {children}
         </label>
-    )
+    );
 }

@@ -3,28 +3,30 @@
 import React, { useState } from 'react';
 
 /**
- * A customizable checkbox component with various variants and sizes.
+ * @typedef {Object} CheckboxProps
+ * @property {boolean} [checked=false] - Whether the checkbox is checked or not.
+ * @property {function} [onChange] - A callback function triggered when the checkbox's checked state changes.
+ * @property {string} [id] - The ID attribute for the checkbox element.
+ * @property {string} [className] - Additional CSS class names to apply to the checkbox container.
+ * @property {'default'|'outline'|'secondary'|'danger'|'warning'|'info'} [variant='default'] - The visual variant of the checkbox.
+ * @property {'xs'|'sm'|'md'|'lg'|'xl'} [size='md'] - The size of the checkbox.
  * 
- * @component
- * @param {Object} props - The component's props.
- * @param {boolean} [props.checked=false] - Whether the checkbox is checked by default.
- * @param {function} [props.onChange] - A callback function triggered when the checkbox's checked state changes. 
- *   Receives the new checked state as a boolean argument.
- * @param {string} [props.id] - The ID for the checkbox element.
- * @param {string} [props.className=''] - Additional CSS classes to apply to the checkbox container.
- * @param {'default'|'outline'|'secondary'|'danger'|'warning'|'info'} [props.variant='default'] - The visual variant of the checkbox.
- * @param {'sm'|'md'|'lg'} [props.size='md'] - The size of the checkbox.
- * @param {Object} [props....rest] - Any other props are spread to the underlying `<div>` container.
+ * A customizable checkbox component with various visual variants and sizes.
+ * 
+ * @param {CheckboxProps} props - The properties for the checkbox component.
+ * @returns {JSX.Element} The rendered checkbox component.
  * 
  * @example
  * // Basic usage
- * <Checkbox id="agreement" onChange={(checked) => console.log('Agreement checked:', checked)} />
- * <label htmlFor="agreement">Agree to terms</label>
+ * <Checkbox />
  * 
  * @example
- * // With different variant and size
- * <Checkbox variant="danger" size="lg" id="important" checked />
- * <label htmlFor="important">Important option</label>
+ * // Controlled checkbox with a change handler
+ * <Checkbox checked={isChecked} onChange={(checked) => setIsChecked(checked)} />
+ * 
+ * @example
+ * // Checkbox with a specific variant and size
+ * <Checkbox variant="danger" size="lg" />
  */
 const Checkbox = ({
     checked = false,
@@ -70,14 +72,18 @@ const Checkbox = ({
     };
 
     const sizes = {
+        xs: 'w-3 h-3',
         sm: 'w-4 h-4',
         md: 'w-5 h-5',
         lg: 'w-6 h-6',
+        xl: 'w-7 h-7'
     };
     const svgsizes = {
+        xs: 'w-2 h-2 ',
         sm: 'w-3 h-3 ',
         md: 'w-4 h-4 ',
         lg: 'w-5 h-5 ',
+        xl: 'w-6 h-6 ',
     };
 
     

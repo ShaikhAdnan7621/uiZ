@@ -1,14 +1,25 @@
 "use client";
 
 /**
-* @param {Object} props
-* @param {React.ReactNode} props.children
-* @param {('default'|'outline'|'primary'|'secondary'|'danger'|'success'|'warning'|'info')} props.variant - The button variant.
-* @param {('md'|'sm'|'lg'|'xl'|'icon')} [props.size='md'] - The button size.
-* @param {string} props.className - Additional class names to apply.
-* @param {React.ButtonHTMLAttributes<HTMLButtonElement>} props.rest - All other props are spread to the button element.
-*/
-
+ * A versatile button component with various variants and sizes.
+ *
+ * @param {Object} props - The component's props.
+ * @param {React.ReactNode} props.children - The content to be displayed within the button.
+ * @param {('default'|'outline'|'primary'|'secondary'|'danger'|'success'|'warning'|'info')} [props.variant='default'] - The visual variant of the button.
+ * @param {('xs'|'sm'|'md'|'lg'|'xl'|'icon')} [props.size='md'] - The size of the button.
+ * @param {string} [props.className] - Additional CSS classes to apply to the button.
+ * @param {Object} [props....rest] - Any other props are spread to the underlying `<button>` element.
+ *
+ * @example
+ * // Basic usage
+ * <Button>Click me</Button>
+ *
+ * @example
+ * // With different variant and size
+ * <Button variant="primary" size="lg">
+ *   Submit
+ * </Button>
+ */
 export default function Button({ children, variant = 'default', size = 'md', className, ...rest }) {
     const varients = {
         default: 'bg-white hover:bg-white/90 text-black  ',

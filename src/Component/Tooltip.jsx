@@ -1,22 +1,21 @@
 "use client";
 import { useState } from 'react';
 
+
 /**
- * @component Tooltip - A versatile tooltip component for providing contextual information.
+ * @description A reusable Tooltip component that displays a tooltip on hover.
  *
- * @param {React.ReactNode} children - The element that triggers the tooltip.
- * @param {string} text - The text content to display within the tooltip.
- * @param {React.ReactNode} [icon] - An optional icon to display alongside the tooltip text.
- * @param {('top'|'bottom'|'left'|'right')} [position='top'] - The position of the tooltip relative to the trigger element.
- * @param {('xs'|'sm'|'md'|'lg')} [size='md'] - The size of the tooltip, affecting its padding and font size.
- * @param {string} [className] - Additional CSS classes to apply to the tooltip element.
- *
- * @example
- * <Tooltip text="This is a tooltip" position="right">
- *   <button>Hover me</button>
- * </Tooltip>
- *
+ * @param {object} props - The component's props.
+ * @param {React.ReactNode} props.children - The children of the Tooltip component, which will trigger the tooltip.
+ * @param {string} props.text - The text to display in the tooltip.
+ * @param {React.ReactNode} [props.icon] - An optional icon to display in the tooltip.
+ * @param {'top' | 'bottom' | 'left' | 'right'} [props.position='top'] - The position of the tooltip relative to the children.
+ * @param {'xs' | 'sm' | 'md' | 'lg'} [props.size='md'] - The size of the tooltip.
+ * @param {string} [props.className] - Additional CSS classes to apply to the tooltip.
+ * 
  * @returns {JSX.Element} The rendered Tooltip component.
+ * 
+ * @example  <Tooltip text="This is a tooltip">Hover over me</Tooltip>
  */
 export default function Tooltip({ children, text, icon, position = 'top', size = 'md', className }) {
     const [showTooltip, setShowTooltip] = useState(false);

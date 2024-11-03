@@ -3,236 +3,248 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #ffffff;
+	--foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 }
 
 
 
 .animate-div {
-  left: 50%;
-  bottom: 0;
-  transform: translateY(100%) translateX(-50%);
-  animation: slideUp 1s 1s forwards;
+	left: 50%;
+	bottom: 0;
+	transform: translateY(100%) translateX(-50%);
+	animation: slideUp 1s 1s forwards;
 }
 
 @keyframes slideUp {
-  0% {
-    transform: translateY(100%) translateX(-50%);
-  }
+	0% {
+		transform: translateY(100%) translateX(-50%);
+	}
 
-  100% {
-    transform: translateY(0%) translateX(-50%);
-  }
+	100% {
+		transform: translateY(0%) translateX(-50%);
+	}
 }
 
 
 .moderscroller::-webkit-scrollbar {
-  /* General scrollbar styles (apply to both vertical and horizontal) */
-  width: 10px;
-  /* Vertical scrollbar width */
-  height: 10px;
-  /* Horizontal scrollbar height */
+	/* General scrollbar styles (apply to both vertical and horizontal) */
+	width: 8px;
+	/* Vertical scrollbar width */
+	height: 8px;
+	/* Horizontal scrollbar height */
 }
 
 .moderscroller::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  /* Background color for both tracks */
-  border-radius: 10px;
+	background: transparent;
+	/* Background color for both tracks */
+	border-radius: 8px;
 }
 
 .moderscroller::-webkit-scrollbar-thumb {
-  background: #888;
-  /* Thumb color for both */
-  border-radius: 10px;
-  border: 2px solid #f1f1f1;
+	background: #888;
+	/* Thumb color for both */
+	border-radius: 10px;
 }
 
 .moderscroller::-webkit-scrollbar-thumb:hover {
-  background: #555;
+	background: #555;
 }
 
 /* Additional Styles for Horizontal Scrollbar */
 .moderscroller::-webkit-scrollbar-thumb:horizontal {
-  /* These styles will apply specifically to the horizontal thumb */
-  border-radius: 5px;
-  /* Rounded corners for the horizontal thumb */
+	border-radius: 10px;
 }
 
 
 /* Global CSS file */
 
 .markdown-container {
-  /* Basic Styling */
-  font-family: sans-serif;
-  line-height: 1.6;
-  color: #dadada;
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: bold;
-    margin-top: 8px;
-    margin-bottom: 5px;
-  }
+	font-family: sans-serif;
+	line-height: 1.6;
+	color: #dadada;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 
-  hr {
-    border-top: 2px solid #dadada;
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-weight: bold;
+		margin-top: 8px;
+		margin-bottom: 5px;
+	}
 
-  h1 {
-    font-size: 2em;
-  }
+	hr {
+		border-top: 2px solid #dadada;
+		margin-top: 1.5em;
+		margin-bottom: 1.5em;
+	}
 
-  h2 {
-    font-size: 1.8em;
-  }
+	h1 {
+		font-size: 2em;
+	}
 
-  h3 {
-    font-size: 1.6em;
-  }
+	h2 {
+		font-size: 1.8em;
+	}
 
-  h4 {
-    font-size: 1.4em;
-  }
+	h3 {
+		font-size: 1.6em;
+	}
 
-  h5 {
-    font-size: 1.2em;
-  }
+	h4 {
+		font-size: 1.4em;
+	}
 
-  h6 {
-    font-size: 1em;
-  }
+	h5 {
+		font-size: 1.2em;
+	}
 
-  p {
-    margin-bottom: 0.75em;
-  }
+	h6 {
+		font-size: 1em;
+	}
 
-  pre {
-    background-color: #272727;
-    color: #dadada;
-    padding: 1em;
-    border-radius: 4px;
-    overflow-x: auto;
-    margin-bottom: 12px;
-  }
+	p {
+		margin-bottom: 0.75em;
+	}
 
-  code {
-    font-family: monospace;
-    background-color:  #272727;
-    padding: 2px 4px;
-    border-radius: 2px;
-  }
-
-  ol {
-    list-style-type: decimal;
-  }
-
-  ul {
-    list-style-type: disc;
-  }
-
-  ul,
-  ol {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    padding-left: 3em;
-  }
-
-  strong {
-    font-weight: bold;
-  }
-
-  /* Link Styles */
-  a {
-    color: #007bff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  img {
-    max-width: 100%;
-    width: 300px;
-    border-radius: 10px;
-    border: 1px solid #2e7d32;
-    height: auto;
-    display: inline;
-    margin-bottom: 1em;
-    border-radius: 8px;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2em;
-  }
-
-  th {
-    background-color: #dcfce7;
-    color: #2e7d32;
-    padding: 15px 20px;
-    text-align: left;
-    border-bottom: 2px solid #2e7d32;
-    font-weight: bold;
-  }
-
-  td {
-    padding: 12px 20px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-  }
-
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-
-  tr:hover {
-    background-color: #e0f2e6;
-    cursor: pointer;
-  }
-
-  td:first-child {
-    text-align: center;
-    font-weight: bold;
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
+	pre {
+		background-color: #272727;
+		color: #dadada;
+		padding: 1em;
+		border-radius: 4px;
+		overflow-x: auto;
+		/* Keeps horizontal scroll for code blocks only */
+		margin-bottom: 12px;
+		max-width: 100%;
+		/* Prevents overflow beyond container width */
+	}
 
 
-  blockquote {
-    border-left: 4px solid #15803d;
-    padding: 1em;
-    margin-left: 1em;
-    margin-bottom: 1.5em;
-  }
+	code {
+		font-family: monospace;
+		background-color: #272727;
+		padding: 2px 4px;
+		border-radius: 2px;
+		white-space: pre-wrap;
+		/* Ensures code wraps within lines */
+		word-break: break-word;
+	}
+
+	ol {
+		list-style-type: decimal;
+	}
+
+	ul {
+		list-style-type: disc;
+	}
+
+	ul,
+	ol {
+		margin-top: 1em;
+		margin-bottom: 1em;
+		padding-left: 3em;
+	}
+
+	strong {
+		font-weight: bold;
+	}
+
+	/* Link Styles */
+	a {
+		color: #007bff;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	img {
+		max-width: 100%;
+		width: 300px;
+		border-radius: 10px;
+		border: 1px solid #2e7d32;
+		height: auto;
+		display: inline;
+		margin-bottom: 1em;
+		border-radius: 8px;
+	}
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		margin-bottom: 2em;
+	}
+
+	th {
+		background-color: #dcfce7;
+		color: #2e7d32;
+		padding: 15px 20px;
+		text-align: left;
+		border-bottom: 2px solid #2e7d32;
+		font-weight: bold;
+	}
+
+	td {
+		padding: 12px 20px;
+		border-bottom: 1px solid #ddd;
+		text-align: left;
+	}
+
+	tr:nth-child(even) {
+		background-color: #eafdf1;
+
+	}
+
+	tr {
+		background-color: #f2f2f2;
+		color: #2e7d32;
+	}
+
+	tr:hover {
+		background-color: #e0f2e6;
+		cursor: pointer;
+	}
+
+	td:first-child {
+		text-align: center;
+		font-weight: bold;
+	}
+
+	tr:last-child td {
+		border-bottom: none;
+	}
+
+
+	blockquote {
+		border-left: 4px solid #15803d;
+		padding: 1em;
+		margin-left: 1em;
+		margin-bottom: 1.5em;
+	}
 }

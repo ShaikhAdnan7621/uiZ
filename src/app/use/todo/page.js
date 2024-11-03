@@ -6,7 +6,7 @@ import Button from '@/Component/Button';
 import Checkbox from '@/Component/Checkbox';
 import { nanoid } from 'nanoid';
 
-const TodoPage = () => {
+const Page = () => {
     const [todos, setTodos] = useState([]);
     const [newTodo, setNewTodo] = useState('');
     const [isBrowser, setIsBrowser] = useState(false); // Add this state
@@ -68,7 +68,7 @@ const TodoPage = () => {
                             className="mr-2"
                         />
                         <span className={todo.completed ? "line-through" : ""}>{todo.text}</span>
-                        <Button onClick={() => deleteTodo(todo.id)} className="ml-auto text-red-500">
+                        <Button onClick={() => deleteTodo(todo.id)} variant='danger' className="ml-auto ">
                             Delete
                         </Button>
                     </li>
@@ -78,4 +78,4 @@ const TodoPage = () => {
     );
 };
 
-export default TodoPage;
+export default Page;

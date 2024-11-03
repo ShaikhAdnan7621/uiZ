@@ -1,304 +1,369 @@
 'use client'
-import { useState } from 'react';
-// import Alert from './Component/Alert';
-import Badge from '@/Component/Badge';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/Component/Accordion'; // Import all the necessary components
-
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@/Component/Breadcrumb';
+import { useState, useEffect } from 'react';
+import Alert from '@/Component/Alert';
 import Button from '@/Component/Button';
+import Tooltip from '@/Component/Tooltip';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/Component/Accordion'; // Import all the necessary components
+import Badge from '@/Component/Badge';
+import { Breadcrumb, BreadcrumbDropdown, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/Component/Breadcrumb';
 import Calendar from '@/Component/Calendar';
 import Carousel, { CarouselItem } from '@/Component/Carousel';
 import Checkbox from '@/Component/Checkbox';
-import DilogContener, { DilogMenuContent, DilogMenuList } from '@/Component/Dilog';
 import Dropdown, { DropdownItem } from '@/Component/Dropdown';
+import { Command, CommandGroup, CommandItem, CommandItemIcon, CommandItemSuggestionText, CommandItemText } from '@/Component/Command';
+import DilogContener, { DilogContent, DilogMenuContent, DilogMenuGroup, DilogMenuList } from '@/Component/Dilog';
 import Input from '@/Component/Input';
 import Label from '@/Component/Label';
-import Tooltip from '@/Component/Tooltip';
-import { Command, CommandGroup, CommandItem, CommandItemIcon, CommandItemText } from '@/Component/Command';
+import Datatable, { TableBody, TableCell, TableRow, TableHead, TableHeadingCell } from '@/Component/Datatable';
+import ScrollArea from '@/Component/ScrollArea';
+import { ResizablePanel, ResizablePanelGroup } from '@/Component/Resizable';
+import ProgressBar from '@/Component/ProgressBar';
+import MdView from '@/Component/Mdview';
+ import Navbar, { NavFoot, NavGroup, NavHead, NavLink } from '@/Component/Navbar';
+import InputRange from '@/Component/InputRange';
+import componentscode from '@/app/data/componentscode';
 
-// Sample task data (replace with actual data fetching/management)
-const initialTasks = [
-    { id: 1, title: 'Finish project proposal', project: 'Acme Website', dueDate: '2024-03-10', priority: 'high', completed: false },
-    { id: 2, title: 'Write blog post', project: 'Marketing', dueDate: '2024-03-15', priority: 'medium', completed: true },
-    { id: 3, title: 'Schedule team meeting', project: 'Internal', dueDate: null, priority: 'low', completed: false },
+const sampleTableData = [
+    { id: 1, productName: "Laptop", category: "Electronics", price: 999.99, stock: 15, available: true, rating: 4.5 },
+    { id: 2, productName: "Coffee Beans", category: "Grocery", price: 12.99, stock: 50, available: true, rating: 4.8 },
+    { id: 3, productName: "T-Shirt", category: "Clothing", price: 19.99, stock: 8, available: false, rating: 3.9 },
+    { id: 4, productName: "Keyboard", category: "Electronics", price: 79.99, stock: 25, available: true, rating: 4.2 },
+    { id: 5, productName: "Mouse", category: "Electronics", price: 29.99, stock: 30, available: true, rating: 4.0 },
+    { id: 6, productName: "Monitor", category: "Electronics", price: 249.99, stock: 10, available: true, rating: 4.6 },
+    { id: 7, productName: "Headphones", category: "Electronics", price: 149.99, stock: 18, available: false, rating: 4.7 },
+    // { id: 8, productName: "Milk", category: "Grocery", price: 3.99, stock: 60, available: true, rating: 4.1 },
+    // { id: 9, productName: "Bread", category: "Grocery", price: 2.49, stock: 40, available: true, rating: 4.3 },
+    // { id: 10, productName: "Eggs", category: "Grocery", price: 5.99, stock: 35, available: true, rating: 4.9 },
+    // { id: 11, productName: "Jeans", category: "Clothing", price: 49.99, stock: 12, available: true, rating: 4.0 },
+    // { id: 12, productName: "Dress", category: "Clothing", price: 39.99, stock: 5, available: false, rating: 3.7 },
+    // { id: 13, productName: "Sneakers", category: "Clothing", price: 89.99, stock: 20, available: true, rating: 4.6 },
+    // { id: 14, productName: "Backpack", category: "Accessories", price: 59.99, stock: 16, available: true, rating: 4.4 },
+    // { id: 15, productName: "Wallet", category: "Accessories", price: 24.99, stock: 28, available: true, rating: 4.2 },
+    // { id: 16, productName: "Sunglasses", category: "Accessories", price: 79.99, stock: 8, available: false, rating: 3.8 },
+    // { id: 17, productName: "Book", category: "Books", price: 14.99, stock: 32, available: true, rating: 4.5 },
+    // { id: 18, productName: "Notebook", category: "Stationery", price: 4.99, stock: 45, available: true, rating: 4.3 },
+    // { id: 19, productName: "Pen", category: "Stationery", price: 1.99, stock: 70, available: true, rating: 4.1 },
+    // { id: 20, productName: "Pencil", category: "Stationery", price: 0.99, stock: 80, available: true, rating: 4.0 },
+    // { id: 21, productName: "Camera", category: "Electronics", price: 599.99, stock: 6, available: true, rating: 4.8 },
+    // { id: 22, productName: "Lens", category: "Electronics", price: 299.99, stock: 4, available: false, rating: 4.9 },
+    // { id: 23, productName: "Tripod", category: "Electronics", price: 49.99, stock: 11, available: true, rating: 4.3 },
+    // { id: 24, productName: "Phone Case", category: "Accessories", price: 19.99, stock: 23, available: true, rating: 4.2 },
+    // { id: 25, productName: "Screen Protector", category: "Accessories", price: 9.99, stock: 38, available: true, rating: 4.7 }
 ];
 
-export default function page() {
-    const [tasks, setTasks] = useState(initialTasks);
+
+
+export default function Home() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterStatus, setFilterStatus] = useState('all');
-    const [showNewTaskModal, setShowNewTaskModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
 
-    // Function to handle task completion
-    const toggleTaskCompletion = (taskId) => {
-        setTasks(tasks.map(task =>
-            task.id === taskId ? { ...task, completed: !task.completed } : task
-        ));
+    const [sliderValue, setSliderValue] = useState(25);
+
+    const handleSliderChange = (event) => {
+        setSliderValue(event.target.value); // Directly update without delay
     };
 
-    // Function to handle task search
-    const handleSearch = (term) => {
-        setSearchTerm(term.toLowerCase());
-    };
+    const [buttonConfig, setbuttonConfig] = useState({
+        variant: "outline",
+        size: "md",
+        className: "",
+        disabled: false,
+    })
 
-    // Function to handle filtering tasks by status
-    const handleFilterChange = (status) => {
-        setFilterStatus(status);
-    };
+    const [TooltipConfig, setTooltipConfig] = useState({
+        text: "This tooltip appears on the left.",
+        position: "left",
+        size: "xs",
+        className: "",
+    })
 
-    // Function to handle adding a new task 
-    const handleAddTask = (newTask) => {
-        console.log(newTask)
-        setTasks([...tasks, { ...newTask, id: Date.now(), completed: false }]);
-        setShowNewTaskModal(false);
-    };
-
-    // Filter tasks based on search term and filter status
-    const filteredTasks = tasks.filter(task => {
-        const titleMatch = task.title.toLowerCase().includes(searchTerm);
-        const statusMatch = filterStatus === 'all' ||
-            (filterStatus === 'completed' && task.completed) ||
-            (filterStatus === 'incomplete' && !task.completed);
-        return titleMatch && statusMatch;
+    const [alertConfig, setAlertConfig] = useState({
+        variant: "info",
+        size: "md",
+        position: "top-right",
+        duration: 5000,
+        text: "This is an alert!",
+        showAlert: false,
+        showConfirm: false,
     });
 
+    const [CheckBoxConfig, setCheckBoxConfig] = useState({
+        checked: false,
+        className: "",
+        variant: 'default',
+        size: 'md',
+    })
+
+
+    const [badgeConfig, setBadgeConfig] = useState({
+        variant: 'default',
+        variantstyle: 'default',
+        size: 'md',
+        className: '',
+        content: 'new',
+    })
+
+    const [dropdownConfig, setDropdownConfig] = useState({
+        searchable: false,
+        placeholder: 'Select an option',
+        multiple: false,
+        className: ' w-52',
+        value: '', // For single select
+        values: [], // For multiple select
+    });
+
+    const [ScrollAreaConfig, setScrollAreaConfig] = useState({
+        className: "",
+        horizontal: false,
+        vertical: false
+    })
+
+    const handleDropdownChange = (newValue) => {
+        if (dropdownConfig.multiple) {
+            setDropdownConfig({ ...dropdownConfig, values: newValue });
+        } else {
+            setDropdownConfig({ ...dropdownConfig, value: newValue });
+        }
+    };
+
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
+
+    const [inputConfig, setInputConfig] = useState({
+        className: ' w-72',
+        placeholder: 'Enter text here',
+        type: 'text',
+        value: '',
+    });
+
+    const [calendarConfig, setCalendarConfig] = useState({
+        initialDate: new Date(),
+        placeholder: "Select a date",
+        toDate: null,
+        fromDate: null,
+        theme: ['pink', 'green', 'gray'],
+    });
+
+    const [NavbarConfig, setNavbarConfig] = useState({
+        vertical: false
+    })
+
+
+    const handleCalendarChange = (date) => {
+        console.log('Selected date:', date);
+    };
+
+
+    const handleInputChange = (e) => {
+        setInputConfig({ ...inputConfig, value: e.target.value });
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        console.log('Selected date:', date);
+    };
+
     return (
-        <div className="overflow-hidden min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[var(--font-geist-sans)]">
-            <Breadcrumb className="my-4">
-                <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbLink active={true}>Tasks</BreadcrumbLink>
-                </BreadcrumbItem>
-            </Breadcrumb>
+        <div className="items-center justify-items-center pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+            <header className='max-w-4xl mx-auto mb-20'>
+                <h1 className="text-3xl font-bold text-center mb-5">My UI Library</h1>
+                <Breadcrumb className="my-4 text-xl">
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/">UI Components</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/use">use</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbDropdown current="Home Page">
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/use/chatbot">Component AI</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/use/contactus">contactus</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/use/signup">signup</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/use/task">task</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/use/todo">todo</BreadcrumbLink>
+                        </BreadcrumbItem>
+                    </BreadcrumbDropdown>
+                    <BreadcrumbSeparator />
+                </Breadcrumb>
+            </header>
+            <main className="w-screen flex flex-col gap-8 space-y-4 max-w-4xl mx-auto">
 
-            <h1 className="text-3xl font-bold text-center mb-4">Task Dashboard</h1>
+                <section className="space-y-4 m-4" id='section1'>
+                    <h2 className="text-xl font-semibold">Navbar</h2>
+                    <div className="flex flex-wrap rounded-md border border-gray-500/50 max-w-2xl p-5 mx-auto">
+                        <div className='h-96  w-full flex items-center justify-center '>
+                            <Navbar vertical={NavbarConfig.vertical} className={""}>
+                                <NavHead>
+                                    <h1 className='font-bold text-1xl'>
+                                        Ui Library
+                                    </h1>
+                                </NavHead>
+                                <NavGroup vertical={NavbarConfig.vertical} className={''}>
+                                    <NavLink href="/components/button">
+                                        components
+                                    </NavLink>
+                                    <NavLink href="/about">
+                                        hello
+                                    </NavLink>
+                                    <NavLink href="/about">
+                                        hello
+                                    </NavLink>
+                                    <NavLink href="/about">
+                                        hello
+                                    </NavLink>
+                                </NavGroup>
+                                <NavFoot vertical={NavbarConfig.vertical}  >
+                                    footter
+                                </NavFoot>
+                            </Navbar>
 
-            {/* Carousel for announcements/tips (replace with actual content) */}
-            <Carousel autoplay interval={5000} className="mb-8">
-                <CarouselItem>
-                    <div className="bg-black flex items-center justify-center p-4 rounded-md h-96">
-                        <h3 className="text-lg font-semibold">Welcome to your dashboard!</h3>
-                        <p>Stay organized and manage your tasks effectively.</p>
-                    </div>
-                </CarouselItem>
-                <CarouselItem>
-                    <div className="bg-black flex items-center justify-center p-4 rounded-md h-96">
-                        <h3 className="text-lg font-semibold">Tip: Prioritize your tasks!</h3>
-                        <p>Focus on high-priority tasks first to maximize productivity.</p>
-                    </div>
-                </CarouselItem>
-            </Carousel>
+                        </div>
+                        <hr className='border-t border-gray-500/50 w-full' />
 
-            <div className="flex flex-col md:flex-row gap-4">
-                {/* Sidebar */}
-                <div className="md:w-1/4 bg-black p-4 rounded-md">
-                    <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-
-                    {/* Add Task Button */}
-                    <Button onClick={() => setShowNewTaskModal(true)} variant='outline'>Add Task</Button>
-
-                    <h3 className="text-lg font-semibold mt-6 mb-2">Filter</h3>
-                    <Dropdown value={filterStatus} onChange={handleFilterChange} className="w-full">
-                        <DropdownItem value="all">All Tasks</DropdownItem>
-                        <DropdownItem value="completed">Completed</DropdownItem>
-                        <DropdownItem value="incomplete">Incomplete</DropdownItem>
-                    </Dropdown>
-
-                    {/* Calendar */}
-                    <h3 className="text-lg font-semibold mt-6 mb-2">Calendar</h3>
-                    <Calendar
-                        position={" bottom-full mb-5  left-1/2 transform -translate-x-1/2"}
-                    />
-                </div>
-
-                {/* Main Content Area */}
-                <div className="md:w-3/4">
-                    {/* Command Palette for Search and Actions */}
-                    <Command onSearch={handleSearch} placeholder="Search tasks..." className="mb-4">
-                        <CommandGroup title="Actions">
-                            <CommandItem onClick={() => alert('Add new task')} >
-                                <CommandItemIcon>+</CommandItemIcon>
-                                <CommandItemText>Add Task</CommandItemText>
-                            </CommandItem>
-                        </CommandGroup>
-                    </Command>
-
-                    {/* Accordions for Task Categories (replace with actual categories) */}
-                    <Accordion>
-                        <AccordionItem value="project1">
-                            <AccordionTrigger>
-                                <span>Acme Website Project</span>
-                                <Badge variant="blue" style="light" className="ml-2 p-2 ">
-                                    {filteredTasks.filter(task => task.project === 'Acme Website').length}
-                                </Badge>
-                            </AccordionTrigger>
+                        {/* custamize */}
+                        <AccordionItem value="item-1" className='w-full'>
+                            <AccordionTrigger>customize</AccordionTrigger>
                             <AccordionContent>
-                                <TaskList tasks={filteredTasks.filter(task => task.project === 'Acme Website')} onToggleComplete={toggleTaskCompletion} />
+                                <div className=' mx-auto flex flex-wrap gap-2 justify-center'>
+                                    <div className='w-72 mb-2 flex items-center justify-center'>
+                                        <div className='flex justify-start mt-2 '>
+                                            <Checkbox
+                                                checked={NavbarConfig.vertical}
+                                                onChange={(checked) => { setNavbarConfig({ ...NavbarConfig, vertical: checked }) }}
+                                                id={"NavbarVertical"} />
+                                            <Label htmlFor={"NavbarVertical"}>Default</Label>
+                                        </div>
+                                    </div>
+                                </div>
                             </AccordionContent>
                         </AccordionItem>
 
-                        <AccordionItem value="project2">
-                            <AccordionTrigger>
-                                <span>Marketing</span>
-                                <Badge variant="green" style="light"   className="ml-2 p-2">
-                                    {filteredTasks.filter(task => task.project === 'Marketing').length}
-                                </Badge>
-                            </AccordionTrigger>
+                        {/* code part */}
+                        <AccordionItem value="item-1" className='w-full'>
+                            <AccordionTrigger>copy code</AccordionTrigger>
                             <AccordionContent>
-                                <TaskList tasks={filteredTasks.filter(task => task.project === 'Marketing')} onToggleComplete={toggleTaskCompletion} />
+                                <MdView >
+                                    {/* {`    <button variant="${buttonConfig.variant}" size="${buttonConfig.size}" className="${buttonConfig.className}">\n        Default\n     <button>\n`} */}
+                                </MdView>
+                                <AccordionItem className='w-full'>
+                                    <AccordionTrigger>Component Code</AccordionTrigger>
+                                    <AccordionContent  >
+                                        <MdView className='min-w-fit'>
+                                            {/* {componentscode.button} */}
+                                        </MdView>
+                                    </AccordionContent>
+                                </AccordionItem>
                             </AccordionContent>
                         </AccordionItem>
+                    </div>
+                </section>
 
-                        {/* More Accordion Items for other categories */}
-                    </Accordion>
-                </div>
-            </div>
+                <section className="space-y-4 " id='section16'>
+                    <h2 className="text-xl font-semibold">Datatable</h2>
+                    <div className="flex flex-wrap rounded-md border border-gray-500/50 max-w-2xl p-5 mx-auto">
+                        <div className=' w-full flex items-center justify-center '>
+                            <ScrollArea className={"w-[50vw] h-[50vh] mx-auto"}  >
+                                <div
+                                    className='w-screen h-screen'
+                                    style={{
+                                        backgroundImage: `linear-gradient(to right, rgba(255, 255, 255, 0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 1px, transparent 1px)`,
+                                        backgroundSize: '100px 100px', // Adjust grid size here
+                                        backgroundColor: '#000000', // Optional: set a background color
+                                    }}
+                                >
+                                </div>
+                            </ScrollArea>
+                        </div>
+                        <hr className='border-t border-gray-500/50 w-full mt-3' />
 
-            {/* New Task Modal */}
-            {showNewTaskModal && (
-                <NewTaskModal onClose={() => setShowNewTaskModal(false)} onAddTask={handleAddTask} />
-            )}
-        </div>
+                        {/* code part */}
+                        <AccordionItem value="item-1" className='w-full'>
+                            <AccordionTrigger>copy code</AccordionTrigger>
+                            <AccordionContent>
+                                <MdView >
+                                    {`    <ScrollArea className={"w-[50vw] h-[50vh] mx-auto"} vertical={${ScrollAreaConfig.vertical}} horizontal={${ScrollAreaConfig.horizontal}}> \n        \n    </ScrollArea>`}
+
+                                </MdView>
+                                <AccordionItem className='w-full'>
+                                    <AccordionTrigger>Component Code</AccordionTrigger>
+                                    <AccordionContent  >
+                                        <MdView className='min-w-fit'>
+                                            {componentscode.scrollArea}
+                                        </MdView>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </div>
+                </section >
+
+                {/* Resizable */}
+                < section className="space-y-4 " id='section17' >
+                    <h2 className="text-xl font-semibold">Resizable</h2>
+                    <div className='flex flex-col justify-start w-1/2 mx-auto min-w-64 min-h-80 '>
+
+                        <ResizablePanelGroup direction="horizontal">
+                            <ResizablePanel defaultSize={300}>
+                                <div className="p-4 h-full">
+                                    <h1 className="text-2xl">Panel 1</h1>
+                                    <p>This is the first panel of the outer group.</p>
+                                </div>
+                            </ResizablePanel>
+
+                            <ResizablePanel defaultSize={500}>
+
+                                <ResizablePanelGroup direction="vertical">
+                                    <ResizablePanel defaultSize={100} direction='vertical'>
+                                        <div className="p-4 h-full">
+                                            <h1 className="text-xl">Nested Panel 1</h1>
+                                            <p>This is the first panel in the nested group.</p>
+                                        </div>
+                                    </ResizablePanel>
+                                    <ResizablePanel defaultSize={100} direction='vertical'>
+                                        <div className="p-4   h-full">
+                                            <h1 className="text-xl">Nested Panel 2</h1>
+                                            <p>This is the second panel in the nested group.</p>
+                                        </div>
+                                    </ResizablePanel>
+                                </ResizablePanelGroup>
+                            </ResizablePanel>
+                        </ResizablePanelGroup>
+                    </div>
+                </section >
+            </main >
+            {
+                showAlert && (
+                    <Alert
+                        variant="warning"
+                        size="md"
+                        onConfirm={() => {
+                            console.log('Confirmed!');
+                            setShowAlert(false);
+                        }}
+                        onClose={() => setShowAlert(false)}
+                    >
+                        Are you sure you want to delete this?
+                    </Alert>
+                )
+            }
+        </div >
     );
 }
 
-// Component for rendering the task list
-const TaskList = ({ tasks, onToggleComplete }) => {
-    return (
-        <ul className="space-y-2">
-            {tasks.map(task => (
-                <li key={task.id} className=" p-2 border rounded-md">
-                    <DilogContener rightclick={() => console.log(`Menu for task ${task.id} clicked!`)}>
-                        <div className='flex items-center justify-between'>
 
-                            <div className="flex items-center">
-                                {/* Checkbox for task completion */}
-                                <Checkbox
-                                    id={`task-${task.id}`}
-                                    checked={task.completed}
-                                    onChange={() => onToggleComplete(task.id)}
-                                />
-                                <label htmlFor={`task-${task.id}`} className={`ml-2 ${task.completed ? 'line-through text-gray-500' : ''}`}>
-                                    {task.title}
-                                </label>
-                            </div>
 
-                            <div className="flex items-center gap-2">
-                                {/* Due Date (if available) */}
-                                {task.dueDate && (
-                                    <Tooltip text={`Due: ${task.dueDate}`} position="left" size='sm' className="w-32">
-                                        <span className="text-xs text-gray-600">{task.dueDate}</span>
-                                    </Tooltip>
-                                )}
 
-                                {/* Task Priority Badge */}
-                                <Badge variant={task.priority === 'high' ? 'red' : task.priority === 'medium' ? 'yellow' : 'green'}>
-                                    {task.priority}
-                                </Badge>
-                            </div>
 
-                            {/* Task Actions (using DilogContener) */}
 
-                            <Tooltip text={`Right Click to see the Actions`} position="left" size='sm' className="w-32">
-                                <button className="px-2 py-1 rounded-md hover:bg-gray-800">
-                                    <span aria-hidden="true">...</span> {/* Replace with menu icon */}
-                                </button>
-                            </Tooltip>
-                        </div>
-                        <DilogMenuContent className={"transform -translate-x-full -translate-y-1/2 w-20 "}>
-                            <DilogMenuList ><div>Edit</div><span>✒️</span></DilogMenuList>
-                            <DilogMenuList ><div>Delete</div><span>🗑️</span></DilogMenuList>
-                        </DilogMenuContent>
-                    </DilogContener>
-                </li>
-            ))}
-        </ul>
-    );
-};
-
-// Modal component for adding a new task
-const NewTaskModal = ({ onClose, onAddTask }) => {
-    const [newTaskTitle, setNewTaskTitle] = useState('');
-    const [newTaskProject, setNewTaskProject] = useState('');
-    const [newTaskDueDate, setNewTaskDueDate] = useState(null);
-    const [newTaskPriority, setNewTaskPriority] = useState('medium');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onAddTask({
-            title: newTaskTitle,
-            project: newTaskProject,
-            dueDate: newTaskDueDate,
-            priority: newTaskPriority,
-        });
-        // Reset form fields
-        setNewTaskTitle('');
-        setNewTaskProject('');
-        setNewTaskDueDate(null);
-        setNewTaskPriority('medium');
-    };
-
-    return (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="absolute inset-0 bg-black opacity-50"></div> {/* Modal backdrop */}
-
-            <div className="bg-black border border-gray-500 p-4 w-96 rounded-md z-10 relative">
-                <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
-
-                {/* New Task Form */}
-
-                <div>
-                    <Label htmlFor="task-title">Title:</Label>
-                    <Input
-                        id="task-title"
-                        type="text"
-                        value={newTaskTitle}
-                        className={"w-full"}
-                        placeholder={"Title"}
-                        onChange={(value) => setNewTaskTitle(value)}
-                        required
-                    />
-                </div>
-
-                <div>
-                    <Label htmlFor="task-project">Project:</Label>
-                    <Input
-                        id="task-project"
-                        type="text"
-                        value={newTaskProject}
-                        className={"w-full"}
-                        placeholder={"Project Name"}
-                        onChange={(value) => setNewTaskProject(value)}
-                    />
-                </div>
-
-                <div>
-                    <Label htmlFor="task-due-date">Due Date:</Label>
-                    <Calendar
-                        id="task-due-date"
-                        className={"  w-full"}
-                        value={newTaskDueDate}
-                        onChange={setNewTaskDueDate}
-                    />
-                </div>
-
-                <div>
-                    <Label htmlFor="task-priority">Priority:</Label>
-                    <Dropdown value={newTaskPriority} onChange={setNewTaskPriority} id="task-priority">
-                        <DropdownItem value="low">Low</DropdownItem>
-                        <DropdownItem value="medium">Medium</DropdownItem>
-                        <DropdownItem value="high">High</DropdownItem>
-                    </Dropdown>
-                </div>
-
-                <div className="flex justify-end space-x-4 mt-3">
-                    <Button variant="outline" onClick={onClose}>Cancel</Button>
-                    <Button type="submit" onClick={handleSubmit} >Add Task</Button>
-                </div>
-            </div>
-        </div>
-    );
-};

@@ -1,99 +1,59 @@
+/**
+ * @file Provides a flexible and customizable Accordion component for displaying collapsible content sections.
+ *
+ * The Accordion component is designed to be highly versatile and can be easily integrated into various layouts and designs.
+ * It allows for the creation of interactive user interfaces where content can be expanded or collapsed as needed.
+ *
+ * @example
+ * // Basic usage:
+ * <Accordion>
+ *   <AccordionItem>
+ *     <AccordionTrigger>Section 1</AccordionTrigger>
+ *     <AccordionContent>Content for Section 1</AccordionContent>
+ *   </AccordionItem>
+ *   <AccordionItem open={true}>
+ *     <AccordionTrigger>Section 2</AccordionTrigger>
+ *     <AccordionContent>Content for Section 2</AccordionContent>
+ *   </AccordionItem>
+ * </Accordion>
+ */
+
 import React, { useState } from 'react';
 
 /**
- * @typedef {Object} AccordionContentProps
- * @property {boolean} isOpen - Whether the accordion content is open or closed.
- * @property {React.ReactNode} children - The content to be displayed inside the accordion.
- */
-
-/**
- * The content section of an accordion item.
+ * The main Accordion component that wraps around individual AccordionItem components.
  *
- * This component should be used as a child of `AccordionItem`.
- * It displays the content associated with an accordion item.
- *
- * @param {AccordionContentProps} props - The component props.
- * @returns {JSX.Element} The rendered AccordionContent component. 
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the Accordion.
+ * @param {string} [props.className] - Optional className to apply to the Accordion container.
+ * @returns {JSX.Element} The Accordion component.
  */
-export const AccordionContent = ({ isOpen, children }) => {
+export const Accordion = ({ children, className }) => {
     return (
-        <div
-            className={` transition-max-height duration-300 ease-in-out overflow-hidden transform  ${isOpen ? 'min-h-fit duration-400 ' : 'max-h-0 duration-400 '} `}
-        >
-            <div className='px-4 py-3'>
-                {children}
-            </div>
+        <div className={`p-4 border border-gray-500/50 rounded-md ${className}`}>
+            {children}
         </div>
     );
 };
 
 /**
- * @typedef {Object} AccordionTriggerProps
- * @property {boolean} isOpen - Whether the accordion item is open or closed.
- * @property {Function} onClick - The function to be called when the trigger is clicked.
- * @property {React.ReactNode} children - The content to be displayed inside the trigger button.
- */
-
-/**
- * The trigger button for an accordion item.
+ * Represents a single item within the Accordion, containing a trigger and its corresponding content.
  *
- * This component should be used as a child of `AccordionItem`.
- * It acts as a button that toggles the open/closed state of the accordion item.
- *
- * @param {AccordionTriggerProps} props - The component props.
- * @returns {JSX.Element} The rendered AccordionTrigger component.
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The child components of the AccordionItem, including AccordionTrigger and AccordionContent.
+ * @param {string} [props.className] - Optional className to apply to the AccordionItem container.
+ * @param {boolean} [props.open=false] - Whether the AccordionItem should be initially open.
+ * @returns {JSX.Element} The AccordionItem component.
  */
-export const AccordionTrigger = ({ isOpen, onClick, children }) => {
-    return (
-        <>
-            <button
-                onClick={onClick}
-                className="w-full px-4 py-3 text-left font-medium flex justify-between items-center focus:outline-none"
-            >
-                {children}
-
-                <svg
-                    className={` h-4 w-4 transition-transform transform ${isOpen ? 'rotate-180' : ''}`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                >
-
-                    <path
-                        fillRule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                    />
-                </svg>
-            </button>
-        </>
-    );
-};
-
-/**
- * @typedef {Object} AccordionItemProps
- * @property {React.ReactNode} children - The children of the AccordionItem component.
- * @property {any} value - The value associated with the accordion item.
- */
-
-/**
- * An individual accordion item.
- *
- * This component represents a single item within an accordion.
- * It should contain `AccordionTrigger` and `AccordionContent` as children.
- *
- * @param {AccordionItemProps} props - The component props.
- * @returns {JSX.Element} The rendered AccordionItem component.
- */
-export const AccordionItem = ({ children, value }) => {
-    const [isOpen, setIsOpen] = useState(false);
+export const AccordionItem = ({ children, className, open = false }) => {
+    const [isOpen, setIsOpen] = useState(open);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
 
     return (
-        <div className=" overflow-hidden mb-2">
+        <div className={`w-full mb-2 ${className}`}>
             {React.Children.map(children, (child) => {
                 if (child.type === AccordionTrigger) {
                     return React.cloneElement(child, {
@@ -107,30 +67,62 @@ export const AccordionItem = ({ children, value }) => {
                 }
                 return null;
             })}
-
-            <hr className='border-t-gray-500 ' />
+            <hr className='border-t-gray-500/50' />
         </div>
     );
 };
 
 /**
- * @typedef {Object} AccordionProps
- * @property {React.ReactNode} children - The children of the Accordion component.
+ * The trigger element that toggles the visibility of the AccordionContent.
+ *
+ * @param {object} props - The component props.
+ * @param {boolean} props.isOpen - Whether the AccordionItem is currently open.
+ * @param {Function} props.onClick - The function to be called when the trigger is clicked.
+ * @param {React.ReactNode} props.children - The content to be displayed within the trigger.
+ * @param {string} [props.className] - Optional className to apply to the AccordionTrigger button.
+ * @returns {JSX.Element} The AccordionTrigger component.
  */
+export const AccordionTrigger = ({ isOpen, onClick, children, className }) => {
+    return (
+        <button
+            onClick={onClick}
+            className={`w-full px-4 py-3 text-left font-medium flex justify-between items-center focus:outline-none ${className}`}
+        >
+            {children}
+            <svg
+                className={` h-4 w-4 transition-transform transform ${isOpen ? 'rotate-180' : ''}`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+            >
+
+                <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                />
+            </svg>
+        </button>
+    );
+};
 
 /**
- * The main accordion component.
+ * The content section that is displayed or hidden based on the state of the AccordionItem.
  *
- * This component acts as a container for multiple `AccordionItem` components.
- * It provides the overall structure and styling for the accordion.
- *
- * @param {AccordionProps} props - The component props.
- * @returns {JSX.Element} The rendered Accordion component.
+ * @param {object} props - The component props.
+ * @param {boolean} props.isOpen - Whether the AccordionItem is currently open.
+ * @param {React.ReactNode} props.children - The content to be displayed within the AccordionContent.
+ * @param {string} [props.className] - Optional className to apply to the AccordionContent container.
+ * @returns {JSX.Element} The AccordionContent component.
  */
-export const Accordion = ({ children }) => {
+export const AccordionContent = ({ isOpen, children, className }) => {
     return (
-        <div className='p-4 border border-gray-500 rounded-md'>
-            {children}
+        <div
+            className={`transition-max-height duration-300 ease-in-out transform ${isOpen ? 'min-h-fit overflow-visible' : 'max-h-0 overflow-hidden'} ${className}`}
+        >
+            <div className='px-4 py-3'>
+                {children}
+            </div>
         </div>
     );
 };
