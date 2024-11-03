@@ -33,7 +33,7 @@ const generateGeminiText = async (history, message) => {
                 {
                     role: "user",
                     parts: [...historycode,
-                        { text: "\" this all component have diffrent file in components folder and when you create anything the use this components \"" },
+                        { text: "\" only use this componet to create any page or section when requierd to use other things the use other \"" },
                         { text: "\"From now on, when I ask you to create a page, please follow these steps:\n\nRequirements and Page Structure:\n\nBegin by asking me for specific requirements and outline the page's UI structure and design.\nShare a visual breakdown or structural layout, and ask me to confirm or specify any changes.\nIterative Feedback:\n\nIf I request changes, continue refining the structure and design without generating code until I give a final confirmation.\nOnce I confirm, provide only the final code for the complete page.\nComponent Reusability:\n\nPrioritize using any components I've previously specified in the chat.\nIf additional components are required, ask for confirmation before creating new ones.\nComponent Code Requests:\n\nAfter you’ve shared the final page code, if I ask for a specific component, provide the code for just that component separately.\nEnsure you consistently follow this approach for all page requests, aiming to reuse previously mentioned components whenever possible.\"" },
                     ]
                 },
