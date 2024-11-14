@@ -35,7 +35,7 @@ function Header() {
     return (
         <>
             <div className='h-full hidden md:block'>
-                <Navbar vertical className='h-full bg-stone-950 rounded-md py-1 shadow-white'>
+                <Navbar vertical className='h-full bg-stone-950 text-white rounded-md py-1 shadow-white'>
                     <NavGroup className={"h-full overflow-auto moderscroller"} vertical>
                         {pageLinks.map((link) => (
                             <NavLink

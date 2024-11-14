@@ -11,12 +11,12 @@ import React from 'react';
  * @returns {JSX.Element} The rendered navbar component.
  */
 export default function Navbar({ children, className, vertical = false }) {
-    const navStyle = `flex ${vertical ? 'flex-col w-52' : 'flex-row items-center max-h-28'} gap-2 justify-between`;
-    return (
-        <nav className={`${className} ${navStyle}`}>
-            {children}
-        </nav>
-    );
+	const navStyle = `flex ${vertical ? 'flex-col w-52' : 'flex-row items-center max-h-28'} gap-2 justify-between`;
+	return (
+		<nav className={`${className} ${navStyle}`}>
+			{children}
+		</nav>
+	);
 }
 
 /**
@@ -30,15 +30,15 @@ export default function Navbar({ children, className, vertical = false }) {
  * @returns {JSX.Element} The rendered navigation link.
  */
 export function NavLink({ children, className, href, active = false, ...rest }) {
-    return (
-        <Link
-            href={href}
-            {...rest}
-            className={`text-sm font-medium hover:bg-gray-900 px-3 py-2 rounded-md ${className} ${active ? 'bg-gray-900' : ''}`}
-        >
-            {children}
-        </Link>
-    );
+	return (
+		<Link
+			href={href}
+			{...rest}
+			className={`text-sm font-medium text-white hover:bg-gray-900 px-3 py-2 rounded-md ${className} ${active ? 'bg-gray-900' : ''}`}
+		>
+			{children}
+		</Link>
+	);
 }
 
 /**
@@ -51,12 +51,12 @@ export function NavLink({ children, className, href, active = false, ...rest }) 
  * @returns {JSX.Element} The rendered navigation group.
  */
 export function NavGroup({ className, children, vertical = false }) {
-    const navGroupStyle = `flex ${vertical ? 'flex-col w-52' : 'flex-row'} px-3 py-2 gap-1 items-center justify-start`;
-    return (
-        <ul className={`${className} ${navGroupStyle}`}>
-            {children}
-        </ul>
-    );
+	const navGroupStyle = `flex ${vertical ? 'flex-col w-52' : 'flex-row'} text-white px-3 py-2 gap-1 items-center justify-start`;
+	return (
+		<ul className={`${className} ${navGroupStyle}`}>
+			{children}
+		</ul>
+	);
 }
 
 /**
@@ -69,11 +69,11 @@ export function NavGroup({ className, children, vertical = false }) {
  */
 export function NavHead({ className, children }) {
 
-    return (
-        <div className={`text-lg font-bold px-4 py-3 text-left ${className}`}>
-            {children}
-        </div>
-    );
+	return (
+		<div className={`text-lg font-bold px-4 py-3  text-white text-left ${className}`}>
+			{children}
+		</div>
+	);
 }
 
 /**
@@ -86,10 +86,10 @@ export function NavHead({ className, children }) {
  * @returns {JSX.Element} The rendered footer section.
  */
 export function NavFoot({ className, children, vertical = false }) {
-    const navFootStyle = `flex ${vertical ? 'flex-col w-52 ' : 'flex-row items-center justify-start'} px-4 py-3 `;
-    return (
-        <div className={`${className} ${navFootStyle}`}>
-            {children}
-        </div>
-    );
+	const navFootStyle = `flex ${vertical ? 'flex-col w-52 ' : 'flex-row items-center justify-start'} text-white px-4 py-3 `;
+	return (
+		<div className={`${className} ${navFootStyle}`}>
+			{children}
+		</div>
+	);
 }

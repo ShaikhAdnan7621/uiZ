@@ -1,53 +1,142 @@
 "use client";
-import Button from '@/Component/Button';
-import React from 'react';
-import { MdLocationPin, MdEmail, MdPhone } from 'react-icons/md';
- 
-const ContactUs = () => {
-  return (
-    <section className="bg-gradient-to-r from-pink-500 to-purple-500 text-white p-8 rounded-md shadow-lg">
-      <h2 className="text-3xl font-bold mb-4 text-center">Contact Us</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl font-bold mb-2">Find Us</h3>
-          <div className="flex flex-col items-center mt-4">
-            <div className="flex items-center gap-2 mb-2">
-              <MdLocationPin size={20} />
-              <span>123 Main Street, Cityville, CA 90210</span>
-            </div>
-            <div className="flex items-center gap-2 mb-2">
-              <MdEmail size={20} />
-              <span>info@example.com</span>
-            </div>
-            <div className="flex items-center gap-2 mb-2">
-              <MdPhone size={20} />
-              <span>(123) 456-7890</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl font-bold mb-2">Send Us a Message</h3>
-          <form className="flex flex-col gap-2 mt-4">
-            <input
-              type="text"
-              className="bg-transparent border border-white px-3 py-2 rounded-md focus:outline-none"
-              placeholder="Your Name"
-            />
-            <input
-              type="email"
-              className="bg-transparent border border-white px-3 py-2 rounded-md focus:outline-none"
-              placeholder="Your Email"
-            />
-            <textarea
-              className="bg-transparent border border-white px-3 py-2 rounded-md resize-none focus:outline-none h-24"
-              placeholder="Your Message"
-            />
-            <Button variant="primary">Send Message</Button> {/* Using the Button component */}
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-};
 
-export default ContactUs;
+import { useState, useEffect } from "react";
+ 
+import Alert from "@/Component/Alert";
+import Input from "@/Component/Input";
+import Button from "@/Component/Button";
+import Checkbox from "@/Component/Checkbox";
+import Tabs, { TabContent, TabList, TabTrigger } from "@/Component/Tabs";
+
+export default function TodoPage() {
+	const [todos, setTodos] = useState([]);
+	const [newTodo, setNewTodo] = useState("");
+	const [showAlert, setShowAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertVariant, setAlertVariant] = useState("info");
+
+	// Load todos from local storage on page load
+	useEffect(() => {
+		const storedTodos = localStorage.getItem("todos");
+		if (storedTodos) {
+			setTodos(JSON.parse(storedTodos));
+		}
+	}, []);
+
+	// Save todos to local storage whenever todos changes
+	useEffect(() => {
+		localStorage.setItem("todos", JSON.stringify(todos));
+	}, [todos]);
+
+	const handleNewTodoChange = (e) => {
+		setNewTodo(e.target.value);
+	};
+
+	const addTodo = () => {
+		if (newTodo.trim() === "") {
+			setShowAlert(true);
+			setAlertMessage("Please enter a task!");
+			setAlertVariant("warning");
+			return;
+		}
+
+		setTodos([...todos, { text: newTodo, completed: false }]);
+		setNewTodo("");
+		setShowAlert(true);
+		setAlertMessage("Task added successfully!");
+		setAlertVariant("success");
+	};
+
+	const toggleTodo = (index) => {
+		const updatedTodos = [...todos];
+		updatedTodos[index].completed = !updatedTodos[index].completed;
+		setTodos(updatedTodos);
+	};
+
+	const deleteTodo = (index) => {
+		const updatedTodos = todos.filter((_, i) => i !== index);
+		setTodos(updatedTodos);
+	};
+
+	const handleAlertClose = () => {
+		setShowAlert(false);
+	};
+
+	return (
+		<div className="w-full mx-auto p-4">
+			<h1 className="text-2xl font-bold text-center mb-4">Todo List</h1>
+			{showAlert && (
+				<Alert
+					variant={alertVariant}
+					onClose={handleAlertClose}
+					duration={10000}
+					position="top-center"
+				>
+					{alertMessage}
+				</Alert>
+			)}
+			<div className="flex gap-2 mb-4">
+				<Input
+					placeholder="Add new task..."
+					value={newTodo}
+					onChange={handleNewTodoChange}
+				/>
+				<Button variant="primary" onClick={addTodo}>
+					Add
+				</Button>
+			</div>
+
+			<Tabs defaultActiveKey={0}>
+				<TabList>
+					<TabTrigger tabKey={0}>
+						<span className="font-medium">Active Tasks</span>
+					</TabTrigger>
+					<TabTrigger tabKey={1}>
+						<span className="font-medium">Completed Tasks</span>
+					</TabTrigger>
+				</TabList>
+				<TabContent tabKey={0}>
+					<ul className="list-disc p-2">
+						{todos
+							.filter((todo) => !todo.completed)
+							.map((todo, index) => (
+								<li key={index} className="flex gap-2 items-center mb-1">
+									<Checkbox
+										checked={todo.completed}
+										onChange={() => toggleTodo(index)}
+									/>
+									<span className={`font-medium ${todo.completed ? "line-through text-gray-400" : ""}`}>
+										{todo.text}
+									</span>
+									<Button variant="danger" size="xs" onClick={() => deleteTodo(index)}>
+										Delete
+									</Button>
+								</li>
+							))}
+					</ul>
+				</TabContent>
+				<TabContent tabKey={1}>
+					<ul className="list-disc p-2">
+						{todos
+							.filter((todo) => todo.completed)
+							.map((todo, index) => (
+								<li key={index} className="flex gap-2 items-center mb-1">
+									<Checkbox
+										checked={todo.completed}
+										onChange={() => toggleTodo(index)}
+									/>
+									<span className={`font-medium ${todo.completed ? "line-through text-gray-400" : ""}`}>
+										{todo.text}
+									</span>
+									<Button variant="danger" size="xs" onClick={() => deleteTodo(index)}>
+										Delete
+									</Button>
+								</li>
+							))}
+					</ul>
+				</TabContent>
+			</Tabs>
+		</div>
+	);
+}
+
