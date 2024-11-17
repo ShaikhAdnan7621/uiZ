@@ -6,6 +6,7 @@ import axios from 'axios';
 import { FaSpinner } from 'react-icons/fa'; // Or any other loading icon library
 import { useState } from 'react';
 import Head from 'next/head';
+import { space } from 'postcss/lib/list';
 
 
 const Chatbot = () => {
@@ -114,12 +115,12 @@ const Chatbot = () => {
 							<Button
 								variant="primary"
 								size="md"
-								className="bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg px-4 py-2 shadow-lg transform hover:scale-105 transition-transform duration-200 ease-in-out"
+								className="bg-gradient-to-br w-16 h-10 from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg px-4 py-2 shadow-lg transform hover:scale-105 transition-transform duration-200 ease-in-out"
 								onClick={handleClick}
 								disabled={isProcessing} // Disable button while processing
 							>
-								{isProcessing && <FaSpinner className="animate-spin mr-2" />}
-								Run
+								{isProcessing ? <FaSpinner className="animate-spin text-lg mx-auto" /> :
+									<soan >Run</soan>}
 							</Button>
 						</div>
 					</div>
