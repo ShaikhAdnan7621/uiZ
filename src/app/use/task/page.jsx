@@ -327,7 +327,7 @@ export default function Home() {
                                 <ResizablePanelGroup direction="vertical">
                                     <ResizablePanel defaultSize={100} direction='vertical'>
                                         <div className="p-4 h-full">
-                                            <h1 className="text-xl">Nested Panel 1</h1>
+                                            <h1 className="text-xl">Adnan Is Grate</h1>
                                             <p>This is the first panel in the nested group.</p>
                                         </div>
                                     </ResizablePanel>
