@@ -25,7 +25,7 @@ function Page() {
 				<section className="bg-gray-900 text-white py-20">
 					<div className="container mx-auto text-center">
 						<h1 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500">
-							<span className=' text-5xl'>uiZ</span> - Build Beautiful UIs
+							uiZ  - Build Beautiful UIs
 						</h1>
 						<p className="text-lg mb-6 text-gray-300">
 							A curated collection of reusable React components to supercharge your next project.
@@ -494,10 +494,7 @@ function Page() {
 									<Link href="/components" className="hover:text-gray-300">Components</Link>
 								</li>
 								<li>
-									<Link href="/pricing" className="hover:text-gray-300">Pricing</Link>
-								</li>
-								<li>
-									<Link href="/blog" className="hover:text-gray-300">Blog</Link>
+									<Link href="/chat" className="hover:text-gray-300">uiZ Chat</Link>
 								</li>
 							</ul>
 						</div>
@@ -507,10 +504,10 @@ function Page() {
 							<h3 className="text-lg font-semibold mb-3">Contact Us</h3>
 							<ul className="text-sm space-y-2">
 								<li>
-									<a href="mailto:info@example.com" className="hover:text-gray-300">info@example.com</a>
+									<a href="mailto:shaikhadnan7621@gmail.com" className="hover:text-gray-300">shaikhadnan7621@gmail.com</a>
 								</li>
 								<li>
-									<a href="tel:+1234567890" className="hover:text-gray-300">+1-234-567-890</a>
+									<a href="tel:+1234567890" className="hover:text-gray-300">+91 76218 16774</a>
 								</li>
 							</ul>
 						</div>
